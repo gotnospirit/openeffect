@@ -15,7 +15,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new tunnel.BlueXOR();
+        effect = new tunnel.BetterTexture();
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}
