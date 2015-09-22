@@ -15,7 +15,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new plasma.PaletteLooping();
+        effect = new plasma.RGB();
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}

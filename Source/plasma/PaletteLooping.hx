@@ -21,7 +21,21 @@ class PaletteLooping implements IEffect
         // generate the palette
         for (i in 0...256)
         {
-            palette[i] = EffectUtils.ColorHSV(i, 255, 255);
+            var v : Float = Math.PI * i;
+
+            // palette[i] = EffectUtils.ColorHSV(i, 255, 255);
+
+            palette[i] = EffectUtils.ColorRGB(
+                Math.ceil(127.0 + 127 * Math.sin(v / 32.0)),
+                Math.ceil(127.0 + 127 * Math.sin(v / 64.0)),
+                Math.ceil(127.0 + 127 * Math.sin(v / 128.0))
+            );
+
+            // palette[i] = EffectUtils.ColorRGB(
+                // Math.ceil(127.0 + 127 * Math.sin(v / 16.0)),
+                // Math.ceil(127.0 + 127 * Math.sin(v / 128.0)),
+                // 0
+            // );
         }
 
         // generate the plasma once
@@ -31,12 +45,25 @@ class PaletteLooping implements IEffect
 
             for (y in 0...h)
             {
-                // cf sin.SumEffect
                 plasma[x][y] = Math.ceil(
+                    // (
+                        // (127.0 + 127.0 * Math.sin(x / 16.0))
+                        // + (127.0 + 127.0 * Math.sin(y / 16.0))
+                    // ) / 2
+
+                    // (
+                        // (127.0 + 127.0 * Math.sin(x / 16.0))
+                        // + (127.0 + 127.0 * Math.sin(y / 8.0))
+                        // + (127.0 + 127.0 * Math.sin((x + y) / 16.0))
+                        // + (127.0 + 127.0 * Math.sin(Math.sqrt(x * x + y * y) / 8.0))
+                    // ) / 4
+
                     (
                         (127.0 + 127.0 * Math.sin(x / 16.0))
-                        + (127.0 + 127.0 * Math.sin(y / 16.0))
-                    ) / 2
+                        + (127.0 + 127.0 * Math.sin(y / 32.0))
+                        + (127.0 + 127.0 * Math.sin(Math.sqrt((x - w / 2.0)* (x - w / 2.0) + (y - h / 2.0) * (y - h / 2.0)) / 8.0))
+                        + (127.0 + 127.0 * Math.sin(Math.sqrt(x * x + y * y) / 8.0))
+                    ) / 4
                 );
             }
         }
