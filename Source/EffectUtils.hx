@@ -1,14 +1,11 @@
+// @see http://lodev.org/cgtutor/files/quickcg/quickcg.cpp
+
 package;
 
 import flash.Lib;
 
 class EffectUtils
 {
-    // static public inline function abs(v : Int) : Int
-    // {
-        // return v > 0 ? v : v * -1;
-    // }
-
 	static public inline function getTime() : Float
     {
 		return Lib.getTimer();

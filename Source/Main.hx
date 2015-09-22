@@ -15,7 +15,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new tunnel.BetterTexture();
+        effect = new tunnel.LookingAround();
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}
