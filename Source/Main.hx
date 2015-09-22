@@ -15,7 +15,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new plasma.RGB();
+        effect = new tunnel.BlueXOR();
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}
