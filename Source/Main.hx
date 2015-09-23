@@ -16,7 +16,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new raycast.Untextured();
+        effect = new raycast.Textured();
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}
