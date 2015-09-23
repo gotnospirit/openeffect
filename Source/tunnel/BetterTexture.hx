@@ -18,7 +18,7 @@ class BetterTexture implements IEffect
         angle = new Array<Array<Int>>();
 	}
 
-    public function init(w : Int, h : Int) : Void
+    public function init(w : Int, h : Int, _) : Void
     {
         // generate the texture
         texture = Assets.getBitmapData("assets/tunnelstonetex.png");
@@ -70,5 +70,9 @@ class BetterTexture implements IEffect
             }
         }
         bm.unlock();
+    }
+
+    public function keyboard(_) : Void
+    {
     }
 }

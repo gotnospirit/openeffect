@@ -9,7 +9,7 @@ class BaseEffect implements IEffect
     {
 	}
 
-    public function init(w : Int, h : Int) : Void
+    public function init(w : Int, h : Int, _) : Void
     {
     }
 
@@ -31,6 +31,10 @@ class BaseEffect implements IEffect
             }
         }
         bm.unlock();
+    }
+
+    public function keyboard(_) : Void
+    {
     }
 
     private function getColor(x : Int, y : Int, w : Int, h : Int) : Int

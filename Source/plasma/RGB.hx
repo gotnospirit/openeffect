@@ -11,7 +11,7 @@ class RGB implements IEffect
     {
 	}
 
-    public function init(w : Int, h : Int) : Void
+    public function init(w : Int, h : Int, _) : Void
     {
     }
 
@@ -40,6 +40,10 @@ class RGB implements IEffect
             }
         }
         bm.unlock();
+    }
+
+    public function keyboard(_) : Void
+    {
     }
 
     private inline function dist(a : Float, b : Float, c : Float, d : Float) : Float

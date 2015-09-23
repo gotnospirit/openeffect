@@ -5,6 +5,7 @@ import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 
 import openfl.events.Event;
+import openfl.events.KeyboardEvent;
 
 class Main extends Sprite
 {
@@ -15,7 +16,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new tunnel.LookingAround();
+        effect = new raycast.Untextured();
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}
@@ -25,12 +26,14 @@ class Main extends Sprite
         var w : Int = stage.stageWidth;
         var h : Int = stage.stageHeight;
 
-        effect.init(w, h);
-
         bmp = new Bitmap(new BitmapData(w, h));
         this.addChild(bmp);
 
-		this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+        effect.init(w, h, this);
+
+        stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+        stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+        stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
     }
 
     private function onOpened(e:Event) : Void
@@ -43,5 +46,15 @@ class Main extends Sprite
     private function onEnterFrame(_) : Void
     {
         effect.render(bmp);
+    }
+
+    private function onKeyDown(evt : KeyboardEvent) : Void
+    {
+        effect.keyboard(evt);
+    }
+
+    private function onKeyUp(evt : KeyboardEvent) : Void
+    {
+        effect.keyboard(evt);
     }
 }

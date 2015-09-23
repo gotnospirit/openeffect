@@ -16,7 +16,7 @@ class FireEffect implements IEffect
         palette = new Array<Int>();
 	}
 
-    public function init(w : Int, h : Int) : Void
+    public function init(w : Int, h : Int, _) : Void
     {
         for (x in 0...w)
         {
@@ -86,5 +86,9 @@ class FireEffect implements IEffect
             }
         }
         bm.unlock();
+    }
+
+    public function keyboard(_) : Void
+    {
     }
 }
