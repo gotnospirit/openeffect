@@ -4,48 +4,56 @@ package raycast;
 
 import openfl.display.BitmapData;
 
-class Untextured extends BaseEffect
+class BaseTextured extends BaseEffect
 {
+    var textures : Array<Array<Int>>;
+
+    static inline var TEXTURE_WIDTH : Int = 64;
+    static inline var TEXTURE_HEIGHT : Int = 64;
+
     override private function initPositions() : Void
     {
         // x and y start position
-        posX = 22;
-        posY = 12;
+        posX = 18.66;
+        posY = 14.98;
         // initial direction vector
-        dirX = -1;
-        dirY = 0;
+        dirX = 0.99;
+        dirY = -0.06;
         // the 2d raycaster version of camera plane
-        planeX = 0;
-        planeY = 0.66;
+        planeX = -0.04;
+        planeY = -0.65;
     }
 
     override private function initWorld() : Array<Array<Int>>
     {
+        // generate some textures
+        textures = generateTextures(TEXTURE_WIDTH, TEXTURE_HEIGHT);
+
         return [
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1],
-            [1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1],
-            [1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            [4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7],
+            [4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7],
+            [4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7],
+            [4,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7],
+            [4,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7],
+            [4,0,4,0,0,0,0,5,5,5,5,5,5,5,5,5,7,7,0,7,7,7,7,7],
+            [4,0,5,0,0,0,0,5,0,5,0,5,0,5,0,5,7,0,0,0,7,7,7,1],
+            [4,0,6,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8],
+            [4,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,1],
+            [4,0,8,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8],
+            [4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,7,7,7,1],
+            [4,0,0,0,0,0,0,5,5,5,5,0,5,5,5,5,7,7,7,7,7,7,7,1],
+            [6,6,6,6,6,6,6,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6],
+            [8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4],
+            [6,6,6,6,6,6,0,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6],
+            [4,4,4,4,4,4,0,4,4,4,6,0,6,2,2,2,2,2,2,2,3,3,3,3],
+            [4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2],
+            [4,0,0,0,0,0,0,0,0,0,0,0,6,2,0,0,5,0,0,2,0,0,0,2],
+            [4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2],
+            [4,0,6,0,6,0,0,0,0,4,6,0,0,0,0,0,5,0,0,0,0,0,0,2],
+            [4,0,0,5,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2],
+            [4,0,6,0,6,0,0,0,0,4,6,0,6,2,0,0,5,0,0,2,0,0,0,2],
+            [4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2],
+            [4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3]
         ];
     }
 
@@ -155,37 +163,52 @@ class Untextured extends BaseEffect
                 draw_end = h - 1;
             }
 
-            var color : Int = 0;
+            // texturing calculations
+            var tex_num : Int = world[map_x][map_y] - 1; // 1 substracted from it so that texture 0 can be used!
 
-            switch (world[map_x][map_y])
+            // calculate value of wall_x
+            var wall_x : Float = 0.0; // where exactly the wall was hit
+
+            if (1 == side)
             {
-                case 1:
-                    color = ColorRGB(true, false, false, side);
+                wall_x = ray_pos_x + ((map_y - ray_pos_y + (1 - step_y) / 2) / ray_dir_y) * ray_dir_x;
+            }
+            else
+            {
+                wall_x = ray_pos_y + ((map_x - ray_pos_x + (1 - step_x) / 2) / ray_dir_x) * ray_dir_y;
+            }
 
-                case 2:
-                    color = ColorRGB(false, true, false, side);
+            wall_x -= Math.floor(wall_x);
 
-                case 3:
-                    color = ColorRGB(false, false, true, side);
-
-                case 4:
-                    color = ColorRGB(true, true, true, side);
-
-                default:
-                    color = ColorRGB(true, true, false, side);
+            // x coordinate on the texture
+            var tex_x : Int = Math.ceil(wall_x * TEXTURE_WIDTH);
+            if (0 == side && ray_dir_x > 0)
+            {
+                tex_x = TEXTURE_WIDTH - tex_x - 1;
+            }
+            if (1 == side && ray_dir_y < 0)
+            {
+                tex_x = TEXTURE_WIDTH - tex_x - 1;
             }
 
             for (y in draw_start...draw_end)
             {
+                var d : Int = Math.ceil(y * 256 - h * 128 + line_height * 128); // 256 and 128 factors to avoid floats
+                var tex_y : Int = Math.ceil(((d * TEXTURE_HEIGHT) / line_height) / 256);
+                var color : Int = textures[tex_num][TEXTURE_HEIGHT * tex_y + tex_x];
+                // make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+                if (1 == side)
+                {
+                    color = (color >> 1) & 8355711;
+                }
+
                 bm.setPixel(x, y, color);
             }
         }
     }
 
-    private inline function ColorRGB(r : Bool, g : Bool, b : Bool, side : Int) : Int
+    private function generateTextures(texture_width : Int, texture_height : Int) : Array<Array<Int>>
     {
-        return 1 == side
-            ? EffectUtils.ColorRGB(r ? 128 : 0, g ? 128 : 0, b ? 128 : 0)
-            : EffectUtils.ColorRGB(r ? 255 : 0, g ? 255 : 0, b ? 255 : 0);
+        return null;
     }
 }

@@ -36,27 +36,20 @@ class BaseEffect implements IEffect
         keypressed = new Array<Bool>();
 
         fps = new TextField();
-        fps.multiline = false;
+        fps.multiline = true;
         fps.mouseEnabled = false;
         fps.autoSize = TextFieldAutoSize.LEFT;
 
         var format : TextFormat = new TextFormat();
-        format.size = 18;
+        format.size = 15;
         format.color = 0xffffff;
         fps.defaultTextFormat = format;
 	}
 
     public function init(w : Int, h : Int, parent : Sprite) : Void
     {
-        // x and y start position
-        posX = 22;
-        posY = 11.5;
-        // initial direction vector
-        dirX = -1;
-        dirY = 0;
-        // the 2d raycaster version of camera plane
-        planeX = 0;
-        planeY = 0.66;
+        initPositions();
+
         // time of current frame
         time = 0;
         // time of previous frame
@@ -93,7 +86,10 @@ class BaseEffect implements IEffect
         // frame_time is the time this frame has taken, in seconds
         var frame_time : Float = (time - oldTime) / 1000.0;
         // FPS counter
-        fps.text = "FPS: " + Std.string(Math.ceil(1.0 / frame_time));
+        fps.text = "FPS: " + Std.string(Math.ceil(1.0 / frame_time)) + "\n"
+            + "Pos: {" + posX + ", " + posY + "}" + "\n"
+            + "Dir: {" + dirX + ", " + dirY + "}" + "\n"
+            + "Camera: {" + planeX + ", " + planeY + "}";
 
         bm.unlock();
 
@@ -172,6 +168,10 @@ class BaseEffect implements IEffect
     private inline function abs(value : Float) : Int
     {
         return Math.ceil(value > 0 ? value : value * -1);
+    }
+
+    private function initPositions() : Void
+    {
     }
 
     private function initWorld() : Array<Array<Int>>
