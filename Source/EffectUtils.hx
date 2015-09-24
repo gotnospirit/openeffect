@@ -8,7 +8,7 @@ class EffectUtils
 {
     static public inline function ToInt(value : Float) : Int
     {
-        return cast(value, Int);
+        return Std.int(value);
     }
 
 	static public inline function getTime() : Float
