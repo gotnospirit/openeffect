@@ -16,7 +16,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new noise.Turbulence();
+        effect = new noise.Clouds();
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}
