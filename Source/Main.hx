@@ -16,7 +16,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new raycast.WolfTextured();
+        effect = new raycast.FloorCeiling();
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}
