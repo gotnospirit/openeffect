@@ -16,7 +16,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new noise.Noise();
+        effect = new noise.SmoothNoise();
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}

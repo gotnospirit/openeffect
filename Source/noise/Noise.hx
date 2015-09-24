@@ -43,8 +43,7 @@ class Noise implements IEffect
         {
             for (x in 0...w)
             {
-                var component : Int = EffectUtils.ToInt(noise[x % NOISE_WIDTH][y % NOISE_HEIGHT] * 256);
-                bm.setPixel(x, y, EffectUtils.ColorRGB(component, component, component));
+                bm.setPixel(x, y, getPixel(x, y, NOISE_WIDTH, NOISE_HEIGHT));
             }
         }
         bm.unlock();
@@ -52,5 +51,11 @@ class Noise implements IEffect
 
     public function keyboard(_) : Void
     {
+    }
+
+    private function getPixel(x : Int, y : Int, width : Int, height : Int) : Int
+    {
+        var component : Int = EffectUtils.ToInt(noise[x % width][y % height] * 256);
+        return EffectUtils.ColorRGB(component, component, component);
     }
 }
