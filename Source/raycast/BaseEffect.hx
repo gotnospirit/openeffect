@@ -1,4 +1,4 @@
-// @see http://lodev.org/cgtutor/tunnel.html
+// @see http://lodev.org/cgtutor/raycasting.html
 
 package raycast;
 
@@ -86,10 +86,7 @@ class BaseEffect implements IEffect
         // frame_time is the time this frame has taken, in seconds
         var frame_time : Float = (time - oldTime) / 1000.0;
         // FPS counter
-        fps.text = "FPS: " + Std.string(EffectUtils.ToInt(1.0 / frame_time)) + "\n"
-            + "Pos: {" + posX + ", " + posY + "}" + "\n"
-            + "Dir: {" + dirX + ", " + dirY + "}" + "\n"
-            + "Camera: {" + planeX + ", " + planeY + "}";
+        fps.text = "FPS: " + Std.string(EffectUtils.ToInt(1.0 / frame_time));
 
         bm.unlock();
 
