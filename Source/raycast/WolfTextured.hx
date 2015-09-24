@@ -7,11 +7,19 @@ import openfl.Assets;
 
 class WolfTextured extends BaseTextured
 {
-    private function getTexturePixels(index : Int) : Array<Int>
+    var assets : Array<String>;
+
+    public function new()
+    {
+        super();
+
+        assets = ["eagle.png", "redbrick.png", "purplestone.png", "greystone.png", "bluestone.png", "mossy.png", "wood.png", "colorstone.png"];
+    }
+
+    private function getTexturePixels(filepath : String) : Array<Int>
     {
         var result = new Array<Int>();
-        var pix = ["eagle.png", "redbrick.png", "purplestone.png", "greystone.png", "bluestone.png", "mossy.png", "wood.png", "colorstone.png"];
-        var texture : BitmapData = Assets.getBitmapData("assets/wolftex/" + pix[index]);
+        var texture : BitmapData = Assets.getBitmapData(filepath);
         var texture_width = texture.width;
         var texture_height = texture.height;
 
@@ -27,15 +35,11 @@ class WolfTextured extends BaseTextured
 
     override private function generateTextures(texture_width : Int, texture_height : Int) : Array<Array<Int>>
     {
-        return [
-            getTexturePixels(0),
-            getTexturePixels(1),
-            getTexturePixels(2),
-            getTexturePixels(3),
-            getTexturePixels(4),
-            getTexturePixels(5),
-            getTexturePixels(6),
-            getTexturePixels(7)
-        ];
+        var result = new Array<Array<Int>>();
+        for (i in 0...assets.length)
+        {
+            result.push(getTexturePixels("assets/wolftex/" + assets[i]));
+        }
+        return result;
     }
 }

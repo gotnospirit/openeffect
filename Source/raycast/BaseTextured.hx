@@ -199,7 +199,7 @@ class BaseTextured extends BaseEffect
                 // make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
                 if (1 == side)
                 {
-                    color = (color >> 1) & 8355711;
+                    color = EffectUtils.ColorDarker(color);
                 }
 
                 bm.setPixel(x, y, color);
