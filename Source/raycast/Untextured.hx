@@ -61,8 +61,8 @@ class Untextured extends BaseEffect
             var ray_dir_y : Float = dirY + planeY * camera_x;
 
             // which box of the map we're in
-            var map_x : Int = Math.ceil(ray_pos_x);
-            var map_y : Int = Math.ceil(ray_pos_y);
+            var map_x : Int = EffectUtils.ToInt(ray_pos_x);
+            var map_y : Int = EffectUtils.ToInt(ray_pos_y);
 
             // length of ray from current position to next x or y-side
             var side_dist_x : Float = 0.0;
@@ -143,13 +143,13 @@ class Untextured extends BaseEffect
             var line_height : Int = abs(h / perp_wall_dist);
 
             // calculate lowest and highest pixel to fill in current stripe
-            var draw_start : Int = Math.ceil(-line_height / 2 + h / 2);
+            var draw_start : Int = EffectUtils.ToInt(-line_height / 2 + h / 2);
             if (draw_start < 0)
             {
                 draw_start = 0;
             }
 
-            var draw_end : Int = Math.ceil(line_height / 2 + h / 2);
+            var draw_end : Int = EffectUtils.ToInt(line_height / 2 + h / 2);
             if (draw_end >= h)
             {
                 draw_end = h - 1;

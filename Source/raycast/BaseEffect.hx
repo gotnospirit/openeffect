@@ -86,7 +86,7 @@ class BaseEffect implements IEffect
         // frame_time is the time this frame has taken, in seconds
         var frame_time : Float = (time - oldTime) / 1000.0;
         // FPS counter
-        fps.text = "FPS: " + Std.string(Math.ceil(1.0 / frame_time)) + "\n"
+        fps.text = "FPS: " + Std.string(EffectUtils.ToInt(1.0 / frame_time)) + "\n"
             + "Pos: {" + posX + ", " + posY + "}" + "\n"
             + "Dir: {" + dirX + ", " + dirY + "}" + "\n"
             + "Camera: {" + planeX + ", " + planeY + "}";
@@ -162,12 +162,12 @@ class BaseEffect implements IEffect
 
     private inline function isWall(x : Float, y : Float) : Bool
     {
-        return 0 != world[Math.ceil(x)][Math.ceil(y)];
+        return 0 != world[EffectUtils.ToInt(x)][EffectUtils.ToInt(y)];
     }
 
     private inline function abs(value : Float) : Int
     {
-        return Math.ceil(value > 0 ? value : value * -1);
+        return EffectUtils.ToInt(value > 0 ? value : value * -1);
     }
 
     private function initPositions() : Void

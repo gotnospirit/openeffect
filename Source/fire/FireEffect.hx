@@ -65,7 +65,7 @@ class FireEffect implements IEffect
         {
             for (x in 0...w)
             {
-                fire[x][y] = Math.ceil(
+                fire[x][y] = EffectUtils.ToInt(
                     (
                         fire[(x - 1 + w) % w][(y + 1) % h]
                             + fire[(x) % w][(y + 1) % h]

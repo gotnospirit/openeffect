@@ -34,7 +34,7 @@ class RGB implements IEffect
                     + Math.sin(dist(x, y + time / 7, 192.0, 64) / 7.0)
                     + Math.sin(dist(x, y, 192.0, 100.0) / 8.0);
 
-                var color : Int = Math.ceil(4 + value) * 32;
+                var color : Int = EffectUtils.ToInt(4 + value) * 32;
 
                 bm.setPixel(x, y, EffectUtils.ColorRGB(color, color * 2, 255 - color));
             }

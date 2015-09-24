@@ -6,6 +6,11 @@ import flash.Lib;
 
 class EffectUtils
 {
+    static public inline function ToInt(value : Float) : Int
+    {
+        return cast(value, Int);
+    }
+
 	static public inline function getTime() : Float
     {
 		return Lib.getTimer();
@@ -89,7 +94,7 @@ class EffectUtils
                     r = g = b = 0;
             }
         }
-        return ColorRGB(Math.ceil(r * 255.0), Math.ceil(g * 255.0), Math.ceil(b * 255.0));
+        return ColorRGB(ToInt(r * 255.0), ToInt(g * 255.0), ToInt(b * 255.0));
     }
 
     static public function ColorHSL(h : Float, s : Float, l : Float) : Int
@@ -140,7 +145,7 @@ class EffectUtils
             g = ColorPart(tempg, temp1, temp2);
             b = ColorPart(tempb, temp1, temp2);
         }
-        return ColorRGB(Math.ceil(r * 255.0), Math.ceil(g * 255.0), Math.ceil(b * 255.0));
+        return ColorRGB(ToInt(r * 255.0), ToInt(g * 255.0), ToInt(b * 255.0));
     }
 
     static private inline function ColorPart(input : Float, t1 : Float, t2 : Float) : Float

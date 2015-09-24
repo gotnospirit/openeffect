@@ -14,8 +14,8 @@ class BaseTextured extends BaseEffect
     override private function initPositions() : Void
     {
         // x and y start position
-        posX = 18.66;
-        posY = 14.98;
+        posX = 22;
+        posY = 11.5;
         // initial direction vector
         dirX = 0.99;
         dirY = -0.06;
@@ -69,8 +69,8 @@ class BaseTextured extends BaseEffect
             var ray_dir_y : Float = dirY + planeY * camera_x;
 
             // which box of the map we're in
-            var map_x : Int = Math.ceil(ray_pos_x);
-            var map_y : Int = Math.ceil(ray_pos_y);
+            var map_x : Int = EffectUtils.ToInt(ray_pos_x);
+            var map_y : Int = EffectUtils.ToInt(ray_pos_y);
 
             // length of ray from current position to next x or y-side
             var side_dist_x : Float = 0.0;
@@ -151,13 +151,13 @@ class BaseTextured extends BaseEffect
             var line_height : Int = abs(h / perp_wall_dist);
 
             // calculate lowest and highest pixel to fill in current stripe
-            var draw_start : Int = Math.ceil(-line_height / 2 + h / 2);
+            var draw_start : Int = EffectUtils.ToInt(-line_height / 2 + h / 2);
             if (draw_start < 0)
             {
                 draw_start = 0;
             }
 
-            var draw_end : Int = Math.ceil(line_height / 2 + h / 2);
+            var draw_end : Int = EffectUtils.ToInt(line_height / 2 + h / 2);
             if (draw_end >= h)
             {
                 draw_end = h - 1;
@@ -181,7 +181,7 @@ class BaseTextured extends BaseEffect
             wall_x -= Math.floor(wall_x);
 
             // x coordinate on the texture
-            var tex_x : Int = Math.ceil(wall_x * TEXTURE_WIDTH);
+            var tex_x : Int = EffectUtils.ToInt(wall_x * TEXTURE_WIDTH);
             if (0 == side && ray_dir_x > 0)
             {
                 tex_x = TEXTURE_WIDTH - tex_x - 1;
@@ -193,8 +193,8 @@ class BaseTextured extends BaseEffect
 
             for (y in draw_start...draw_end)
             {
-                var d : Int = Math.ceil(y * 256 - h * 128 + line_height * 128); // 256 and 128 factors to avoid floats
-                var tex_y : Int = Math.ceil(((d * TEXTURE_HEIGHT) / line_height) / 256);
+                var d : Int = EffectUtils.ToInt(y * 256 - h * 128 + line_height * 128); // 256 and 128 factors to avoid floats
+                var tex_y : Int = EffectUtils.ToInt(((d * TEXTURE_HEIGHT) / line_height) / 256);
                 var color : Int = textures[tex_num][TEXTURE_HEIGHT * tex_y + tex_x];
                 // make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
                 if (1 == side)

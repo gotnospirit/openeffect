@@ -30,7 +30,7 @@ class BlueXOR implements IEffect
 
             for (y in 0...TEXTURE_HEIGHT)
             {
-                texture[x][y] = Math.ceil(x * 256 / TEXTURE_WIDTH) ^ Math.ceil(y * 256 / TEXTURE_HEIGHT);
+                texture[x][y] = EffectUtils.ToInt(x * 256 / TEXTURE_WIDTH) ^ EffectUtils.ToInt(y * 256 / TEXTURE_HEIGHT);
             }
         }
 
@@ -44,8 +44,8 @@ class BlueXOR implements IEffect
 
             for (y in 0...h)
             {
-                distance[x][y] = Math.ceil(ratio * TEXTURE_HEIGHT / Math.sqrt((x - w / 2.0) * (x - w / 2.0) + (y - h / 2.0) * (y - h / 2.0))) % TEXTURE_HEIGHT;
-                angle[x][y] = Math.ceil(0.5 * TEXTURE_WIDTH * Math.atan2(y - h / 2.0, x - w / 2.0) / Math.PI);
+                distance[x][y] = EffectUtils.ToInt(ratio * TEXTURE_HEIGHT / Math.sqrt((x - w / 2.0) * (x - w / 2.0) + (y - h / 2.0) * (y - h / 2.0))) % TEXTURE_HEIGHT;
+                angle[x][y] = EffectUtils.ToInt(0.5 * TEXTURE_WIDTH * Math.atan2(y - h / 2.0, x - w / 2.0) / Math.PI);
             }
         }
     }
@@ -59,8 +59,8 @@ class BlueXOR implements IEffect
 
         var animation : Float = EffectUtils.getTime() / 1000.0;
         // calculate the shift values out of the animation value
-        var shift_x : Int = Math.ceil(TEXTURE_WIDTH * 1.0 * animation);
-        var shift_y : Int = Math.ceil(TEXTURE_HEIGHT * 0.25 * animation);
+        var shift_x : Int = EffectUtils.ToInt(TEXTURE_WIDTH * 1.0 * animation);
+        var shift_y : Int = EffectUtils.ToInt(TEXTURE_HEIGHT * 0.25 * animation);
 
         bm.lock();
         for (y in 0...h)
@@ -68,7 +68,7 @@ class BlueXOR implements IEffect
             for (x in 0...w)
             {
                 // get the texel from the texture by using the tables, shifted with the animation values
-                bm.setPixel(x, y, texture[Math.ceil(distance[x][y] + shift_x) % TEXTURE_WIDTH][Math.ceil(angle[x][y] + shift_y) % TEXTURE_HEIGHT]);
+                bm.setPixel(x, y, texture[EffectUtils.ToInt(distance[x][y] + shift_x) % TEXTURE_WIDTH][EffectUtils.ToInt(angle[x][y] + shift_y) % TEXTURE_HEIGHT]);
                 // bm.setPixel(x, y, texture[x % TEXTURE_WIDTH][y % TEXTURE_HEIGHT]);
             }
         }

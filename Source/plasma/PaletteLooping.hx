@@ -26,14 +26,14 @@ class PaletteLooping implements IEffect
             // palette[i] = EffectUtils.ColorHSV(i, 255, 255);
 
             palette[i] = EffectUtils.ColorRGB(
-                Math.ceil(127.0 + 127 * Math.sin(v / 32.0)),
-                Math.ceil(127.0 + 127 * Math.sin(v / 64.0)),
-                Math.ceil(127.0 + 127 * Math.sin(v / 128.0))
+                EffectUtils.ToInt(127.0 + 127 * Math.sin(v / 32.0)),
+                EffectUtils.ToInt(127.0 + 127 * Math.sin(v / 64.0)),
+                EffectUtils.ToInt(127.0 + 127 * Math.sin(v / 128.0))
             );
 
             // palette[i] = EffectUtils.ColorRGB(
-                // Math.ceil(127.0 + 127 * Math.sin(v / 16.0)),
-                // Math.ceil(127.0 + 127 * Math.sin(v / 128.0)),
+                // EffectUtils.ToInt(127.0 + 127 * Math.sin(v / 16.0)),
+                // EffectUtils.ToInt(127.0 + 127 * Math.sin(v / 128.0)),
                 // 0
             // );
         }

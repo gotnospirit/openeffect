@@ -16,10 +16,10 @@ class Textured extends BaseTextured
         {
             for (y in 0...texture_height)
             {
-                var xorcolor : Int = Math.ceil(x * 256 / texture_width) ^ Math.ceil(y * 256 / texture_height);
-                // var xcolor : Int = Math.ceil(x * 256 / texture_width);
-                var ycolor : Int = Math.ceil(y * 256 / texture_height);
-                var xycolor : Int = Math.ceil(y * 128 / texture_height + x * 128 / texture_width);
+                var xorcolor : Int = EffectUtils.ToInt(x * 256 / texture_width) ^ EffectUtils.ToInt(y * 256 / texture_height);
+                // var xcolor : Int = EffectUtils.ToInt(x * 256 / texture_width);
+                var ycolor : Int = EffectUtils.ToInt(y * 256 / texture_height);
+                var xycolor : Int = EffectUtils.ToInt(y * 128 / texture_height + x * 128 / texture_width);
 
                 var index : Int = texture_width * y + x;
 
