@@ -16,7 +16,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new raycast.FloorCeiling();
+        effect = new noise.Noise();
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}

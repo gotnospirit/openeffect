@@ -18,7 +18,7 @@ class EffectUtils
 
     static public inline function rand() : Int
     {
-        return 32768 + Std.random(32767);
+        return Std.random(32767);
     }
 
     static public inline function ColorDarker(color : Int) : Int
