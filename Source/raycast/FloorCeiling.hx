@@ -151,7 +151,7 @@ class FloorCeiling extends WolfTextured
                 // make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
                 if (1 == side)
                 {
-                    color = (color >> 1) & 8355711;
+                    color = EffectUtils.ColorDarker(color);
                 }
 
                 bm.setPixel(x, y, color);
@@ -206,8 +206,11 @@ class FloorCeiling extends WolfTextured
                 var floor_tex_x : Int = EffectUtils.ToInt(current_floor_x * TEXTURE_WIDTH) % TEXTURE_WIDTH;
                 var floor_tex_y : Int = EffectUtils.ToInt(current_floor_y * TEXTURE_HEIGHT) % TEXTURE_HEIGHT;
 
+                var checker_board_pattern : Int = (EffectUtils.ToInt(current_floor_x + current_floor_y)) % 2;
+                var floor_texture : Int = 0 == checker_board_pattern ? 3 : 4;
+
                 // floor
-                bm.setPixel(x, y, textures[3][TEXTURE_WIDTH * floor_tex_y + floor_tex_x] & 8355711);
+                bm.setPixel(x, y, EffectUtils.ColorDarker(textures[floor_texture][TEXTURE_WIDTH * floor_tex_y + floor_tex_x]));
                 // ceiling (symmetrical!)
                 bm.setPixel(x, h - y, textures[6][TEXTURE_WIDTH * floor_tex_y + floor_tex_x]);
             }

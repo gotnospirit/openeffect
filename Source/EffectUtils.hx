@@ -21,6 +21,11 @@ class EffectUtils
         return 32768 + Std.random(32767);
     }
 
+    static public inline function ColorDarker(color : Int) : Int
+    {
+        return (color >> 1) & 8355711;
+    }
+
     static public inline function ColorRGB(r : Int, g : Int, b : Int, a : Int = 255) : Int
     {
         return (a << 24) | (r << 16) | (g << 8) | b;
