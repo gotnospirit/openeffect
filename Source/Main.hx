@@ -16,7 +16,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new noise.Clouds();
+        effect = new noise.Marble();
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}
