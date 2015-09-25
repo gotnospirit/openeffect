@@ -16,7 +16,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new noise.Wood();
+        effect = new noise.Random3D();
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}
