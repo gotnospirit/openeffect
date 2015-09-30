@@ -42,9 +42,9 @@ class WavingRainbow implements IEffect
         ];
     }
 
-    public function init(width : Int, height : Int) : Array<Array<Int>>
+    public function init(_, _) : Array<Array<Int>>
     {
-        yvalueslen = Std.int((width + 16) / XSPACING);
+        yvalueslen = Std.int((XRES + 16) / XSPACING);
         for (i in 0...yvalueslen)
         {
             yvalues[i] = 0.0;

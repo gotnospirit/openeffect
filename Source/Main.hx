@@ -32,7 +32,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new insolitdust.BurnCube();
+        effect = new insolitdust.MetaBalls();
 
         debug = new TextField();
         debug.multiline = true;

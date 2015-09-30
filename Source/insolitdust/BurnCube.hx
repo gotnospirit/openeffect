@@ -52,9 +52,9 @@ class BurnCube implements IEffect
         yd = [0, 0, 0, 0, 0, 0, 0, 0];
     }
 
-    public function init(width : Int, height : Int) : Array<Array<Int>>
+    public function init(_, _) : Array<Array<Int>>
     {
-        for (i in 0...width)
+        for (i in 0...XRES)
         {
             r[i] = 0;
         }
