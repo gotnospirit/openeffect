@@ -32,7 +32,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new insolitdust.MetaBalls();
+        effect = new insolitdust.Plasma();
 
         debug = new TextField();
         debug.multiline = true;
@@ -56,17 +56,20 @@ class Main extends Sprite
     {
         this.removeEventListener(Event.ADDED_TO_STAGE, onOpened);
 
-        bmp = new Bitmap(new BitmapData(stage.stageWidth, stage.stageHeight));
+        var width : Int = stage.stageWidth;
+        var height : Int = stage.stageHeight;
+
+        bmp = new Bitmap(new BitmapData(width, height));
         this.addChild(bmp);
 
         this.addChild(debug);
 
-        buffer = effect.init(stage.stageWidth, stage.stageHeight);
+        buffer = effect.init(width, height);
 
         buffer_width = buffer.length;
         buffer_height = buffer[0].length;
-        scale_x = stage.stageWidth / buffer_width;
-        scale_y = stage.stageHeight / buffer_height;
+        scale_x = width / buffer_width;
+        scale_y = height / buffer_height;
 
         stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
         stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
