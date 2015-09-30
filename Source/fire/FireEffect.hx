@@ -57,7 +57,7 @@ class FireEffect implements IEffect
         // randomize the bottom row of the fire buffer
         for (x in 0...w)
         {
-            fire[x][h - 1] = 32768 + EffectUtils.rand() % palette_depth;
+            fire[x][h - 1] = (32768 + EffectUtils.rand()) % palette_depth;
         }
 
         // do the fire calculations for every pixel, from top to bottom
