@@ -11,15 +11,18 @@ class Noise implements IEffect
     static inline var NOISE_WIDTH : Int = 128;
     static inline var NOISE_HEIGHT : Int = 128;
 
-	public function new(width : Int, height : Int)
+	public function new()
     {
         noise = new Array<Array<Float>>();
-        this.width = width;
-        this.height = height;
+        width = 0;
+        height = 0;
 	}
 
-    public function init() : Array<Array<Int>>
+    public function init(width : Int, height : Int) : Array<Array<Int>>
     {
+        this.width = width;
+        this.height = height;
+
         // generate noise
         for (x in 0...NOISE_WIDTH)
         {

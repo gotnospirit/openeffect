@@ -24,15 +24,18 @@ class BaseEffect implements IEffect
     var width : Int;
     var height : Int;
 
-	public function new(width : Int, height : Int)
+	public function new()
     {
         keypressed = new Array<Bool>();
-        this.width = width;
-        this.height = height;
+        width = 0;
+        height = 0;
 	}
 
-    public function init() : Array<Array<Int>>
+    public function init(width : Int, height : Int) : Array<Array<Int>>
     {
+        this.width = width;
+        this.height = height;
+
         initPositions();
 
         world = initWorld();

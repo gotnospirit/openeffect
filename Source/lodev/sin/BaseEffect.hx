@@ -5,14 +5,17 @@ class BaseEffect implements IEffect
     var width : Int;
     var height : Int;
 
-	public function new(width : Int, height : Int)
+	public function new()
+    {
+        width = 0;
+        height = 0;
+	}
+
+    public function init(width : Int, height : Int) : Array<Array<Int>>
     {
         this.width = width;
         this.height = height;
-	}
 
-    public function init() : Array<Array<Int>>
-    {
         return EffectUtils.CreateBuffer(width, height, 0);
     }
 

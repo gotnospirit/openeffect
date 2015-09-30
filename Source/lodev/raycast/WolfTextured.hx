@@ -6,9 +6,9 @@ class WolfTextured extends BaseTextured
 {
     var assets : Array<String>;
 
-    public function new(width : Int, height : Int)
+    public function new()
     {
-        super(width, height);
+        super();
 
         assets = ["eagle.png", "redbrick.png", "purplestone.png", "greystone.png", "bluestone.png", "mossy.png", "wood.png", "colorstone.png"];
     }

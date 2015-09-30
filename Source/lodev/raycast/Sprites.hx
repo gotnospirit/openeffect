@@ -23,9 +23,9 @@ class Sprites extends WolfTextured
     static inline var TEXTURE_WIDTH : Int = 64;
     static inline var TEXTURE_HEIGHT : Int = 64;
 
-    public function new(width : Int, height : Int)
+    public function new()
     {
-        super(width, height);
+        super();
 
         // load some sprite textures
         assets.push("barrel.png");

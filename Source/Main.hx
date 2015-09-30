@@ -32,7 +32,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new lodev.tunnel.BlueXOR(stage.stageWidth, stage.stageHeight);
+        effect = new lodev.tunnel.BlueXOR();
 
         debug = new TextField();
         debug.multiline = true;
@@ -61,7 +61,7 @@ class Main extends Sprite
 
         this.addChild(debug);
 
-        buffer = effect.init();
+        buffer = effect.init(stage.stageWidth, stage.stageHeight);
 
         buffer_width = buffer.length;
         buffer_height = buffer[0].length;
