@@ -3,19 +3,12 @@
 package raycast;
 
 import openfl.display.Sprite;
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
 import openfl.ui.Keyboard;
-import openfl.text.TextField;
-import openfl.text.TextFormat;
-import openfl.text.TextFieldAutoSize;
 import openfl.events.KeyboardEvent;
 
 class BaseEffect implements IEffect
 {
     var keypressed : Array<Bool>;
-
-    var fps : TextField;
 
     var posX : Float;
     var posY : Float;
@@ -31,22 +24,17 @@ class BaseEffect implements IEffect
 
     var world : Array<Array<Int>>;
 
-	public function new()
+    var width : Int;
+    var height : Int;
+
+	public function new(width : Int, height : Int)
     {
         keypressed = new Array<Bool>();
-
-        fps = new TextField();
-        fps.multiline = true;
-        fps.mouseEnabled = false;
-        fps.autoSize = TextFieldAutoSize.LEFT;
-
-        var format : TextFormat = new TextFormat();
-        format.size = 15;
-        format.color = 0xffffff;
-        fps.defaultTextFormat = format;
+        this.width = width;
+        this.height = height;
 	}
 
-    public function init(w : Int, h : Int, parent : Sprite) : Void
+    public function init() : Array<Array<Int>>
     {
         initPositions();
 
@@ -55,42 +43,27 @@ class BaseEffect implements IEffect
         // time of previous frame
         oldTime = 0;
 
-        parent.addChild(fps);
-
         world = initWorld();
+        return EffectUtils.CreateBuffer(width, height, 0);
     }
 
-    public function render(frame : Bitmap) : Void
+    public function render(buffer : Array<Array<Int>>) : Array<Int>
     {
-        var bm : BitmapData = frame.bitmapData;
-
-        var w : Int = bm.width;
-        var h : Int = bm.height;
-
-        bm.lock();
-
         // cls
-        for (x in 0...w)
-        {
-            for (y in 0...h)
-            {
-                bm.setPixel(x, y, 0);
-            }
-        }
+        EffectUtils.ClearBuffer(buffer, 0);
 
-        raycast(bm, w, h, world);
+        raycast(buffer, width, height, world);
 
         // timing for input and FPS counter
         oldTime = time;
-        time = EffectUtils.getTime();
+        time = EffectUtils.GetTime();
         // frame_time is the time this frame has taken, in seconds
         var frame_time : Float = (time - oldTime) / 1000.0;
         // FPS counter
-        fps.text = "FPS: " + Std.string(EffectUtils.ToInt(1.0 / frame_time));
-
-        bm.unlock();
+        print("FPS: " + Std.string(EffectUtils.ToInt(1.0 / frame_time)));
 
         update(frame_time);
+        return null;
     }
 
     public function keyboard(evt : KeyboardEvent) : Void
@@ -176,7 +149,7 @@ class BaseEffect implements IEffect
         return null;
     }
 
-    private function raycast(bm : BitmapData, w : Int, h : Int, world : Array<Array<Int>>) : Void
+    private function raycast(buffer : Array<Array<Int>>, width : Int, height : Int, world : Array<Array<Int>>) : Void
     {
     }
 }

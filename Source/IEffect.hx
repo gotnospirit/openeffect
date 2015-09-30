@@ -1,14 +1,12 @@
 package;
 
-import openfl.display.Sprite;
-import openfl.display.Bitmap;
 import openfl.events.KeyboardEvent;
 
 interface IEffect
 {
-    public function init(w : Int, h : Int, parent : Sprite) : Void;
+    public function init() : Array<Array<Int>>;
 
-    public function render(frame : Bitmap) : Void;
+    public function render(buffer : Array<Array<Int>>) : Array<Int>;
 
     public function keyboard(evt : KeyboardEvent) : Void;
 }

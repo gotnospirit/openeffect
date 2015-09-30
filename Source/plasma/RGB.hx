@@ -2,32 +2,29 @@
 
 package plasma;
 
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-
 class RGB implements IEffect
 {
-	public function new()
+    var width : Int;
+    var height : Int;
+
+	public function new(width : Int, height : Int)
     {
+        this.width = width;
+        this.height = height;
 	}
 
-    public function init(w : Int, h : Int, _) : Void
+    public function init() : Array<Array<Int>>
     {
+        return EffectUtils.CreateBuffer(width, height, 0);
     }
 
-    public function render(frame : Bitmap) : Void
+    public function render(buffer : Array<Array<Int>>) : Array<Int>
     {
-        var bm : BitmapData = frame.bitmapData;
+        var time : Float = EffectUtils.GetTime() / 50.0;
 
-        var w : Int = bm.width;
-        var h : Int = bm.height;
-
-        var time : Float = EffectUtils.getTime() / 50.0;
-
-        bm.lock();
-        for (y in 0...h)
+        for (x in 0...width)
         {
-            for (x in 0...w)
+            for (y in 0...height)
             {
                 var value : Float = Math.sin(dist(x + time, y, 128.0, 128.0) / 8.0)
                     + Math.sin(dist(x, y, 64.0, 64.0) / 8.0)
@@ -36,10 +33,10 @@ class RGB implements IEffect
 
                 var color : Int = EffectUtils.ToInt(4 + value) * 32;
 
-                bm.setPixel(x, y, EffectUtils.ColorRGB(color, color * 2, 255 - color));
+                buffer[x][y] = EffectUtils.ColorRGB(color, color * 2, 255 - color);
             }
         }
-        bm.unlock();
+        return null;
     }
 
     public function keyboard(_) : Void

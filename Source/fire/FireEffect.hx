@@ -2,32 +2,21 @@
 
 package fire;
 
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-
 class FireEffect implements IEffect
 {
-    var fire : Array<Array<Int>>;
     var palette : Array<Int>;
+    var width : Int;
+    var height : Int;
 
-	public function new()
+	public function new(width : Int, height : Int)
     {
-        fire = new Array<Array<Int>>();
         palette = new Array<Int>();
+        this.width = width;
+        this.height = height;
 	}
 
-    public function init(w : Int, h : Int, _) : Void
+    public function init() : Array<Array<Int>>
     {
-        for (x in 0...w)
-        {
-            fire[x] = new Array<Int>();
-
-            for (y in 0...h)
-            {
-                fire[x][y] = 0;
-            }
-        }
-
         // Init palette
         for (i in 0...256)
         {
@@ -37,55 +26,38 @@ class FireEffect implements IEffect
             //Lightness is 0..255 for x=0..128, and 255 for x=128..255
 
             //set the palette to the calculated RGB value
-            palette[i] = EffectUtils.ColorHSL(i / 3, 255, min(255, i * 2));
+            palette[i] = EffectUtils.ColorHSL(i / 3, 255, EffectUtils.Min(255, i * 2));
         }
+        return EffectUtils.CreateBuffer(width, height, 0);
     }
 
-    private inline function min(a : Int, b : Int) : Int
+    public function render(buffer : Array<Array<Int>>) : Array<Int>
     {
-        return a < b ? a : b;
-    }
-
-    public function render(frame : Bitmap) : Void
-    {
-        var bm : BitmapData = frame.bitmapData;
-
-        var w : Int = bm.width;
-        var h : Int = bm.height;
         var palette_depth : Int = palette.length;
 
         // randomize the bottom row of the fire buffer
-        for (x in 0...w)
+        for (x in 0...width)
         {
-            fire[x][h - 1] = (32768 + EffectUtils.rand()) % palette_depth;
+            buffer[x][height - 1] = (32768 + EffectUtils.Rand()) % palette_depth;
         }
 
         // do the fire calculations for every pixel, from top to bottom
-        for (y in 0...h - 1)
+        for (y in 0...height - 1)
         {
-            for (x in 0...w)
+            for (x in 0...width)
             {
-                fire[x][y] = EffectUtils.ToInt(
+                buffer[x][y] = EffectUtils.ToInt(
                     (
-                        fire[(x - 1 + w) % w][(y + 1) % h]
-                            + fire[(x) % w][(y + 1) % h]
-                            + fire[(x + 1) % w][(y + 1) % h]
-                            + fire[(x) % w][(y + 2) % h]
+                        buffer[(x - 1 + width) % width][(y + 1) % height]
+                            + buffer[(x) % width][(y + 1) % height]
+                            + buffer[(x + 1) % width][(y + 1) % height]
+                            + buffer[(x) % width][(y + 2) % height]
                     )
                     / (129 / 32)
                 );
             }
         }
-
-        bm.lock();
-        for (y in 0...h)
-        {
-            for (x in 0...w)
-            {
-                bm.setPixel(x, y, palette[fire[x][y]]);
-            }
-        }
-        bm.unlock();
+        return palette;
     }
 
     public function keyboard(_) : Void

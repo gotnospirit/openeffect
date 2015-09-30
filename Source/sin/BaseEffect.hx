@@ -1,36 +1,33 @@
 package sin;
 
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-
 class BaseEffect implements IEffect
 {
-	public function new()
+    var width : Int;
+    var height : Int;
+
+	public function new(width : Int, height : Int)
     {
+        this.width = width;
+        this.height = height;
 	}
 
-    public function init(w : Int, h : Int, _) : Void
+    public function init() : Array<Array<Int>>
     {
+        return EffectUtils.CreateBuffer(width, height, 0);
     }
 
-    public function render(frame : Bitmap) : Void
+    public function render(buffer : Array<Array<Int>>) : Array<Int>
     {
-        var bm : BitmapData = frame.bitmapData;
-
-        var w : Int = bm.width;
-        var h : Int = bm.height;
-
-        bm.lock();
-        for (y in 0...h)
+        for (x in 0...width)
         {
-            for (x in 0...w)
+            for (y in 0...height)
             {
-                var color : Int = getColor(x, y, w, h);
+                var color : Int = getColor(x, y, width, height);
 
-                bm.setPixel(x, y, EffectUtils.ColorRGB(color, color, color));
+                buffer[x][y] = EffectUtils.ColorRGB(color, color, color);
             }
         }
-        bm.unlock();
+        return null;
     }
 
     public function keyboard(_) : Void

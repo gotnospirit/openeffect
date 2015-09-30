@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
-
 	<meta title="OpenEffect" package="com.sample.openeffect" version="1.0.0" company="Company Name" />
 	<app main="Main" path="Export" file="OpenEffect" />
 
@@ -9,5 +8,5 @@
 	<haxelib name="openfl" />
 
 	<assets path="Assets" rename="assets" />
-
+    <window width="640" height="480" background="#FFFFFF" fps="30" />
 </project>

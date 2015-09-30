@@ -2,8 +2,6 @@
 
 package raycast;
 
-import openfl.display.BitmapData;
-
 typedef Sprite = {
     var x : Float;
     var y : Float;
@@ -25,9 +23,9 @@ class Sprites extends WolfTextured
     static inline var TEXTURE_WIDTH : Int = 64;
     static inline var TEXTURE_HEIGHT : Int = 64;
 
-    public function new()
+    public function new(width : Int, height : Int)
     {
-        super();
+        super(width, height);
 
         // load some sprite textures
         assets.push("barrel.png");
@@ -100,12 +98,12 @@ class Sprites extends WolfTextured
         ];
     }
 
-    override private function raycast(bm : BitmapData, w : Int, h : Int, world : Array<Array<Int>>) : Void
+    override private function raycast(buffer : Array<Array<Int>>, width : Int, height : Int, world : Array<Array<Int>>) : Void
     {
-        for (x in 0...w)
+        for (x in 0...width)
         {
             // calculate ray position and direction
-            var camera_x : Float = 2 * x / w - 1;   // x-coordinate in camera space
+            var camera_x : Float = 2 * x / width - 1;   // x-coordinate in camera space
             var ray_pos_x : Float = posX;
             var ray_pos_y : Float = posY;
             var ray_dir_x : Float = dirX + planeX * camera_x;
@@ -191,19 +189,19 @@ class Sprites extends WolfTextured
             }
 
             // Calculate height of line to draw on screen
-            var line_height : Int = abs(h / perp_wall_dist);
+            var line_height : Int = abs(height / perp_wall_dist);
 
             // calculate lowest and highest pixel to fill in current stripe
-            var draw_start : Int = EffectUtils.ToInt(-line_height / 2 + h / 2);
+            var draw_start : Int = EffectUtils.ToInt(-line_height / 2 + height / 2);
             if (draw_start < 0)
             {
                 draw_start = 0;
             }
 
-            var draw_end : Int = EffectUtils.ToInt(line_height / 2 + h / 2);
-            if (draw_end >= h)
+            var draw_end : Int = EffectUtils.ToInt(line_height / 2 + height / 2);
+            if (draw_end >= height)
             {
-                draw_end = h - 1;
+                draw_end = height - 1;
             }
 
             // texturing calculations
@@ -236,7 +234,7 @@ class Sprites extends WolfTextured
 
             for (y in draw_start...draw_end)
             {
-                var d : Int = EffectUtils.ToInt(y * 256 - h * 128 + line_height * 128); // 256 and 128 factors to avoid floats
+                var d : Int = EffectUtils.ToInt(y * 256 - height * 128 + line_height * 128); // 256 and 128 factors to avoid floats
                 var tex_y : Int = EffectUtils.ToInt(((d * TEXTURE_HEIGHT) / line_height) / 256);
                 var color : Int = textures[tex_num][TEXTURE_HEIGHT * tex_y + tex_x];
                 // make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
@@ -245,7 +243,7 @@ class Sprites extends WolfTextured
                     color = EffectUtils.ColorDarker(color);
                 }
 
-                bm.setPixel(x, y, color);
+                buffer[x][y] = color;
             }
 
             // set the z-buffer for the sprite casting
@@ -284,13 +282,13 @@ class Sprites extends WolfTextured
 
             if (draw_end < 0)
             {
-                draw_end = h; // becomes < 0 when the integer overflows
+                draw_end = height; // becomes < 0 when the integer overflows
             }
 
             // draw the floor from draw_end to the bottom of the screen
-            for (y in draw_end + 1...h)
+            for (y in draw_end + 1...height)
             {
-                current_dist = h / (2.0 * y - h); // you could make a small lookup table for this instead
+                current_dist = height / (2.0 * y - height); // you could make a small lookup table for this instead
 
                 var weight : Float = (current_dist - dist_player) / (dist_wall - dist_player);
 
@@ -301,9 +299,9 @@ class Sprites extends WolfTextured
                 var floor_tex_y : Int = EffectUtils.ToInt(current_floor_y * TEXTURE_HEIGHT) % TEXTURE_HEIGHT;
 
                 // floor
-                bm.setPixel(x, y, EffectUtils.ColorDarker(textures[3][TEXTURE_WIDTH * floor_tex_y + floor_tex_x]));
+                buffer[x][y] = EffectUtils.ColorDarker(textures[3][TEXTURE_WIDTH * floor_tex_y + floor_tex_x]);
                 // ceiling (symmetrical!)
-                bm.setPixel(x, h - y, textures[6][TEXTURE_WIDTH * floor_tex_y + floor_tex_x]);
+                buffer[x][height - y] = textures[6][TEXTURE_WIDTH * floor_tex_y + floor_tex_x];
             }
         }
 
@@ -334,28 +332,28 @@ class Sprites extends WolfTextured
             var transform_x : Float = inv_det * (dirY * sprite_x - dirX * sprite_y);
             var transform_y : Float = inv_det * (-planeY * sprite_x + planeX * sprite_y); // this is actually the depth inside the screen, that what Z is in 3D
 
-            var sprite_screen_x : Int = EffectUtils.ToInt((w / 2) * (1 + transform_x / transform_y));
+            var sprite_screen_x : Int = EffectUtils.ToInt((width / 2) * (1 + transform_x / transform_y));
 
             var v_move_screen : Int = EffectUtils.ToInt(sprites[spriteOrder[i]].move / transform_y);
 
             // calculate height of the sprite on screen
-            var sprite_height : Int = EffectUtils.ToInt(abs(h / transform_y) / sprites[spriteOrder[i]].scale); // using "transform_y" instead of the real distance prevents fisheye
+            var sprite_height : Int = EffectUtils.ToInt(abs(height / transform_y) / sprites[spriteOrder[i]].scale); // using "transform_y" instead of the real distance prevents fisheye
 
             // calculate lowest and highest pixel to fill in current stripe
-            var draw_start_y : Int = EffectUtils.ToInt(-sprite_height / 2 + h / 2 + v_move_screen);
+            var draw_start_y : Int = EffectUtils.ToInt(-sprite_height / 2 + height / 2 + v_move_screen);
             if (draw_start_y < 0)
             {
                 draw_start_y = 0;
             }
 
-            var draw_end_y : Int = EffectUtils.ToInt(sprite_height / 2 + h / 2 + v_move_screen);
-            if (draw_end_y >= h)
+            var draw_end_y : Int = EffectUtils.ToInt(sprite_height / 2 + height / 2 + v_move_screen);
+            if (draw_end_y >= height)
             {
-                draw_end_y = h - 1;
+                draw_end_y = height - 1;
             }
 
             // calculate width of the sprite
-            var sprite_width : Int = EffectUtils.ToInt(abs(h / transform_y) / sprites[spriteOrder[i]].scale);
+            var sprite_width : Int = EffectUtils.ToInt(abs(height / transform_y) / sprites[spriteOrder[i]].scale);
 
             var draw_start_x : Int = EffectUtils.ToInt(-sprite_width / 2 + sprite_screen_x);
             if (draw_start_x < 0)
@@ -364,9 +362,9 @@ class Sprites extends WolfTextured
             }
 
             var draw_end_x : Int = EffectUtils.ToInt(sprite_width / 2 + sprite_screen_x);
-            if (draw_end_x >= w)
+            if (draw_end_x >= width)
             {
-                draw_end_x = w - 1;
+                draw_end_x = width - 1;
             }
 
             // loop through every vertical stripe of the sprite on screen
@@ -378,17 +376,17 @@ class Sprites extends WolfTextured
                 // 2) it's on the screen (left)
                 // 3) it's on the screen (right)
                 // 4) zBuffer, with perpendicular distance
-                if (transform_y > 0 && stripe > 0 && stripe < w && transform_y < zBuffer[stripe])
+                if (transform_y > 0 && stripe > 0 && stripe < width && transform_y < zBuffer[stripe])
                 {
                     for (y in draw_start_y...draw_end_y) // for every pixel of the current stripe
                     {
-                        var d : Int = EffectUtils.ToInt((y - v_move_screen) * 256 - h * 128 + sprite_height * 128); // 256 and 128 factors to avoid floats
+                        var d : Int = EffectUtils.ToInt((y - v_move_screen) * 256 - height * 128 + sprite_height * 128); // 256 and 128 factors to avoid floats
                         var tex_y : Int = EffectUtils.ToInt(((d * TEXTURE_HEIGHT) / sprite_height) / 256);
                         var color : Int = textures[sprites[spriteOrder[i]].texture][TEXTURE_WIDTH * tex_y + tex_x]; // get current color from the texture
 
                         if ((color & 0x00FFFFFF) != 0) // paint pixel if it isn't black, black is the invisible color
                         {
-                            drawPixel(bm, stripe, y, color, sprites[spriteOrder[i]].opacity);
+                            drawPixel(buffer, stripe, y, color, sprites[spriteOrder[i]].opacity);
                         }
                     }
                 }
@@ -396,49 +394,14 @@ class Sprites extends WolfTextured
         }
     }
 
-    private inline function drawPixel(bm : BitmapData, x : Int, y : Int, color : Int, opacity : Float) : Void
+    private inline function drawPixel(buffer : Array<Array<Int>>, x : Int, y : Int, color : Int, opacity : Float) : Void
     {
-        opacity = clamp(opacity, 0.0, 1.0);
+        opacity = EffectUtils.clamp(opacity, 0.0, 1.0);
 
-        var old_color : Int = bm.getPixel(x, y);
-        var new_color : Int = AddColor(MulColor(old_color, 1.0 - opacity), MulColor(color, opacity));
-
-        bm.setPixel(x, y, new_color);
-    }
-
-    static private inline function clamp(value : Float, min : Float, max : Float) : Float
-    {
-        if (value > max)
-        {
-            value = max;
-        }
-        else if (value < min)
-        {
-            value = min;
-        }
-        return value;
-    }
-
-    static private inline function AddColor(color1 : Int, color2 : Int) : Int
-    {
-        var b1 : Int = color1 & 255;
-        var g1 : Int = (color1 >> 8) & 255;
-        var r1 : Int = (color1 >> 16) & 255;
-
-        var b2 : Int = color2 & 255;
-        var g2 : Int = (color2 >> 8) & 255;
-        var r2 : Int = (color2 >> 16) & 255;
-
-        return EffectUtils.ColorRGB(r1 + r2, g1 + g2, b1 + b2);
-    }
-
-    static private inline function MulColor(color : Int, factor : Float) : Int
-    {
-        var b : Int = color & 255;
-        var g : Int = (color >> 8) & 255;
-        var r : Int = (color >> 16) & 255;
-
-        return EffectUtils.ColorRGB(EffectUtils.ToInt(r * factor), EffectUtils.ToInt(g * factor), EffectUtils.ToInt(b * factor));
+        buffer[x][y] = EffectUtils.AddColor(
+            EffectUtils.MulColor(buffer[x][y], 1.0 - opacity), // old_color (wall?)
+            EffectUtils.MulColor(color, opacity) // sprite color
+        );
     }
 
     private inline function combSort(order : Array<Int>, dist : Array<Float>, amount : Int) : Void

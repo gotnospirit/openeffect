@@ -2,8 +2,6 @@
 
 package raycast;
 
-import openfl.display.BitmapData;
-
 class Untextured extends BaseEffect
 {
     override private function initPositions() : Void
@@ -49,12 +47,12 @@ class Untextured extends BaseEffect
         ];
     }
 
-    override private function raycast(bm : BitmapData, w : Int, h : Int, world : Array<Array<Int>>) : Void
+    override private function raycast(buffer : Array<Array<Int>>, width : Int, height : Int, world : Array<Array<Int>>) : Void
     {
-        for (x in 0...w)
+        for (x in 0...width)
         {
             // calculate ray position and direction
-            var camera_x : Float = 2 * x / w - 1;   // x-coordinate in camera space
+            var camera_x : Float = 2 * x / width - 1;   // x-coordinate in camera space
             var ray_pos_x : Float = posX;
             var ray_pos_y : Float = posY;
             var ray_dir_x : Float = dirX + planeX * camera_x;
@@ -140,19 +138,19 @@ class Untextured extends BaseEffect
             }
 
             // Calculate height of line to draw on screen
-            var line_height : Int = abs(h / perp_wall_dist);
+            var line_height : Int = abs(height / perp_wall_dist);
 
             // calculate lowest and highest pixel to fill in current stripe
-            var draw_start : Int = EffectUtils.ToInt(-line_height / 2 + h / 2);
+            var draw_start : Int = EffectUtils.ToInt(-line_height / 2 + height / 2);
             if (draw_start < 0)
             {
                 draw_start = 0;
             }
 
-            var draw_end : Int = EffectUtils.ToInt(line_height / 2 + h / 2);
-            if (draw_end >= h)
+            var draw_end : Int = EffectUtils.ToInt(line_height / 2 + height / 2);
+            if (draw_end >= height)
             {
-                draw_end = h - 1;
+                draw_end = height - 1;
             }
 
             var color : Int = 0;
@@ -177,7 +175,7 @@ class Untextured extends BaseEffect
 
             for (y in draw_start...draw_end)
             {
-                bm.setPixel(x, y, color);
+                buffer[x][y] = color;
             }
         }
     }

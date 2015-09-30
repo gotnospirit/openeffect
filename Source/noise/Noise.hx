@@ -2,22 +2,23 @@
 
 package noise;
 
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-
 class Noise implements IEffect
 {
     var noise : Array<Array<Float>>;
+    var width : Int;
+    var height : Int;
 
     static inline var NOISE_WIDTH : Int = 128;
     static inline var NOISE_HEIGHT : Int = 128;
 
-	public function new()
+	public function new(width : Int, height : Int)
     {
         noise = new Array<Array<Float>>();
+        this.width = width;
+        this.height = height;
 	}
 
-    public function init(w : Int, h : Int, _) : Void
+    public function init() : Array<Array<Int>>
     {
         // generate noise
         for (x in 0...NOISE_WIDTH)
@@ -26,27 +27,22 @@ class Noise implements IEffect
 
             for (y in 0...NOISE_HEIGHT)
             {
-                noise[x][y] = (EffectUtils.rand() % 32768) / 32768.0;
+                noise[x][y] = (EffectUtils.Rand() % 32768) / 32768.0;
             }
         }
+        return EffectUtils.CreateBuffer(width, height, 0);
     }
 
-    public function render(frame : Bitmap) : Void
+    public function render(buffer : Array<Array<Int>>) : Array<Int>
     {
-        var bm : BitmapData = frame.bitmapData;
-
-        var w : Int = bm.width;
-        var h : Int = bm.height;
-
-        bm.lock();
-        for (y in 0...h)
+        for (x in 0...width)
         {
-            for (x in 0...w)
+            for (y in 0...height)
             {
-                bm.setPixel(x, y, getPixel(x, y, NOISE_WIDTH, NOISE_HEIGHT));
+                buffer[x][y] = getPixel(x, y, NOISE_WIDTH, NOISE_HEIGHT);
             }
         }
-        bm.unlock();
+        return null;
     }
 
     public function keyboard(_) : Void

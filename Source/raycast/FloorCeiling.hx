@@ -9,12 +9,12 @@ class FloorCeiling extends WolfTextured
     static inline var TEXTURE_WIDTH : Int = 64;
     static inline var TEXTURE_HEIGHT : Int = 64;
 
-    override private function raycast(bm : BitmapData, w : Int, h : Int, world : Array<Array<Int>>) : Void
+    override private function raycast(buffer : Array<Array<Int>>, width : Int, height : Int, world : Array<Array<Int>>) : Void
     {
-        for (x in 0...w)
+        for (x in 0...width)
         {
             // calculate ray position and direction
-            var camera_x : Float = 2 * x / w - 1;   // x-coordinate in camera space
+            var camera_x : Float = 2 * x / width - 1;   // x-coordinate in camera space
             var ray_pos_x : Float = posX;
             var ray_pos_y : Float = posY;
             var ray_dir_x : Float = dirX + planeX * camera_x;
@@ -100,19 +100,19 @@ class FloorCeiling extends WolfTextured
             }
 
             // Calculate height of line to draw on screen
-            var line_height : Int = abs(h / perp_wall_dist);
+            var line_height : Int = abs(height / perp_wall_dist);
 
             // calculate lowest and highest pixel to fill in current stripe
-            var draw_start : Int = EffectUtils.ToInt(-line_height / 2 + h / 2);
+            var draw_start : Int = EffectUtils.ToInt(-line_height / 2 + height / 2);
             if (draw_start < 0)
             {
                 draw_start = 0;
             }
 
-            var draw_end : Int = EffectUtils.ToInt(line_height / 2 + h / 2);
-            if (draw_end >= h)
+            var draw_end : Int = EffectUtils.ToInt(line_height / 2 + height / 2);
+            if (draw_end >= height)
             {
-                draw_end = h - 1;
+                draw_end = height - 1;
             }
 
             // texturing calculations
@@ -145,7 +145,7 @@ class FloorCeiling extends WolfTextured
 
             for (y in draw_start...draw_end)
             {
-                var d : Int = EffectUtils.ToInt(y * 256 - h * 128 + line_height * 128); // 256 and 128 factors to avoid floats
+                var d : Int = EffectUtils.ToInt(y * 256 - height * 128 + line_height * 128); // 256 and 128 factors to avoid floats
                 var tex_y : Int = EffectUtils.ToInt(((d * TEXTURE_HEIGHT) / line_height) / 256);
                 var color : Int = textures[tex_num][TEXTURE_HEIGHT * tex_y + tex_x];
                 // make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
@@ -154,7 +154,7 @@ class FloorCeiling extends WolfTextured
                     color = EffectUtils.ColorDarker(color);
                 }
 
-                bm.setPixel(x, y, color);
+                buffer[x][y] = color;
             }
 
             // Floor casting
@@ -190,13 +190,13 @@ class FloorCeiling extends WolfTextured
 
             if (draw_end < 0)
             {
-                draw_end = h; // becomes < 0 when the integer overflows
+                draw_end = height; // becomes < 0 when the integer overflows
             }
 
             // draw the floor from draw_end to the bottom of the screen
-            for (y in draw_end + 1...h)
+            for (y in draw_end + 1...height)
             {
-                current_dist = h / (2.0 * y - h); // you could make a small lookup table for this instead
+                current_dist = height / (2.0 * y - height); // you could make a small lookup table for this instead
 
                 var weight : Float = (current_dist - dist_player) / (dist_wall - dist_player);
 
@@ -210,9 +210,9 @@ class FloorCeiling extends WolfTextured
                 var floor_texture : Int = 0 == checker_board_pattern ? 3 : 4;
 
                 // floor
-                bm.setPixel(x, y, EffectUtils.ColorDarker(textures[floor_texture][TEXTURE_WIDTH * floor_tex_y + floor_tex_x]));
+                buffer[x][y] = EffectUtils.ColorDarker(textures[floor_texture][TEXTURE_WIDTH * floor_tex_y + floor_tex_x]);
                 // ceiling (symmetrical!)
-                bm.setPixel(x, h - y, textures[6][TEXTURE_WIDTH * floor_tex_y + floor_tex_x]);
+                buffer[x][height - y] = textures[6][TEXTURE_WIDTH * floor_tex_y + floor_tex_x];
             }
         }
     }

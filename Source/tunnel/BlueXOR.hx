@@ -2,80 +2,105 @@
 
 package tunnel;
 
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-
 class BlueXOR implements IEffect
 {
     var texture : Array<Array<Int>>;
+    var texture_width : Int;
+    var texture_height : Int;
+
     var distance : Array<Array<Int>>;
     var angle : Array<Array<Int>>;
 
-    static inline var TEXTURE_WIDTH : Int = 256;
-    static inline var TEXTURE_HEIGHT : Int = 256;
+    var width : Int;
+    var height : Int;
 
-	public function new()
+	public function new(width : Int, height : Int)
     {
-        texture = new Array<Array<Int>>();
-        distance = new Array<Array<Int>>();
-        angle = new Array<Array<Int>>();
+        this.width = width;
+        this.height = height;
 	}
 
-    public function init(w : Int, h : Int, _) : Void
+    public function init() : Array<Array<Int>>
     {
         // generate the texture
-        for (x in 0...TEXTURE_WIDTH)
-        {
-            texture[x] = new Array<Int>();
+        texture = generateTexture();
 
-            for (y in 0...TEXTURE_HEIGHT)
-            {
-                texture[x][y] = EffectUtils.ToInt(x * 256 / TEXTURE_WIDTH) ^ EffectUtils.ToInt(y * 256 / TEXTURE_HEIGHT);
-            }
-        }
+        texture_width = texture.length;
+        texture_height = texture[0].length;
 
-        // generate non-linear transformation table
-        var ratio : Float = 32.0;
-
-        for (x in 0...w)
-        {
-            distance[x] = new Array<Int>();
-            angle[x] = new Array<Int>();
-
-            for (y in 0...h)
-            {
-                distance[x][y] = EffectUtils.ToInt(ratio * TEXTURE_HEIGHT / Math.sqrt((x - w / 2.0) * (x - w / 2.0) + (y - h / 2.0) * (y - h / 2.0))) % TEXTURE_HEIGHT;
-                angle[x][y] = EffectUtils.ToInt(0.5 * TEXTURE_WIDTH * Math.atan2(y - h / 2.0, x - w / 2.0) / Math.PI);
-            }
-        }
+        distance = generateDistanceTable(32.0);
+        angle = generateAngleTable();
+        return EffectUtils.CreateBuffer(width, height, 0);
     }
 
-    public function render(frame : Bitmap) : Void
+    public function render(buffer : Array<Array<Int>>) : Array<Int>
     {
-        var bm : BitmapData = frame.bitmapData;
-
-        var w : Int = bm.width;
-        var h : Int = bm.height;
-
-        var animation : Float = EffectUtils.getTime() / 1000.0;
+        var animation : Float = EffectUtils.GetTime() / 1000.0;
         // calculate the shift values out of the animation value
-        var shift_x : Int = EffectUtils.ToInt(TEXTURE_WIDTH * 1.0 * animation);
-        var shift_y : Int = EffectUtils.ToInt(TEXTURE_HEIGHT * 0.25 * animation);
+        var shift_x : Int = EffectUtils.ToInt(texture_width * 1.0 * animation);
+        var shift_y : Int = EffectUtils.ToInt(texture_height * 0.25 * animation);
 
-        bm.lock();
-        for (y in 0...h)
+        for (x in 0...width)
         {
-            for (x in 0...w)
+            for (y in 0...height)
             {
                 // get the texel from the texture by using the tables, shifted with the animation values
-                bm.setPixel(x, y, texture[EffectUtils.ToInt(distance[x][y] + shift_x) % TEXTURE_WIDTH][EffectUtils.ToInt(angle[x][y] + shift_y) % TEXTURE_HEIGHT]);
-                // bm.setPixel(x, y, texture[x % TEXTURE_WIDTH][y % TEXTURE_HEIGHT]);
+                buffer[x][y] = texture[EffectUtils.ToInt(distance[x][y] + shift_x) % texture_width][EffectUtils.ToInt(angle[x][y] + shift_y) % texture_height];
             }
         }
-        bm.unlock();
+        return null;
     }
 
     public function keyboard(_) : Void
     {
+    }
+
+    private function generateDistanceTable(ratio : Float) : Array<Array<Int>>
+    {
+        // generate non-linear transformation table
+        var result = new Array<Array<Int>>();
+
+        for (x in 0...width)
+        {
+            result[x] = new Array<Int>();
+
+            for (y in 0...height)
+            {
+                result[x][y] = EffectUtils.ToInt(ratio * texture_height / Math.sqrt((x - width / 2.0) * (x - width / 2.0) + (y - height / 2.0) * (y - height / 2.0))) % texture_height;
+            }
+        }
+        return result;
+    }
+
+    private function generateAngleTable() : Array<Array<Int>>
+    {
+        var result = new Array<Array<Int>>();
+
+        for (x in 0...width)
+        {
+            result[x] = new Array<Int>();
+
+            for (y in 0...height)
+            {
+                result[x][y] = EffectUtils.ToInt(0.5 * texture_width * Math.atan2(y - height / 2.0, x - width / 2.0) / Math.PI);
+            }
+        }
+        return result;
+    }
+
+    private function generateTexture() : Array<Array<Int>>
+    {
+        var result = new Array<Array<Int>>();
+
+        for (x in 0...256)
+        {
+            result[x] = new Array<Int>();
+
+            for (y in 0...256)
+            {
+                result[x][y] = EffectUtils.ToInt(x * 256 / 256) ^ EffectUtils.ToInt(y * 256 / 256);
+            }
+        }
+        return result;
     }
 }

@@ -2,21 +2,22 @@
 
 package plasma;
 
-import openfl.display.Bitmap;
-import openfl.display.BitmapData;
-
 class PaletteLooping implements IEffect
 {
     var palette : Array<Int>;
     var plasma : Array<Array<Int>>;
+    var width : Int;
+    var height : Int;
 
-	public function new()
+	public function new(width : Int, height : Int)
     {
         palette = new Array<Int>();
         plasma = new Array<Array<Int>>();
+        this.width = width;
+        this.height = height;
 	}
 
-    public function init(w : Int, h : Int, _) : Void
+    public function init() : Array<Array<Int>>
     {
         // generate the palette
         for (i in 0...256)
@@ -39,11 +40,11 @@ class PaletteLooping implements IEffect
         }
 
         // generate the plasma once
-        for (x in 0...w)
+        for (x in 0...width)
         {
             plasma[x] = new Array<Int>();
 
-            for (y in 0...h)
+            for (y in 0...height)
             {
                 plasma[x][y] = Math.ceil(
                     // (
@@ -61,36 +62,33 @@ class PaletteLooping implements IEffect
                     (
                         (127.0 + 127.0 * Math.sin(x / 16.0))
                         + (127.0 + 127.0 * Math.sin(y / 32.0))
-                        + (127.0 + 127.0 * Math.sin(Math.sqrt((x - w / 2.0)* (x - w / 2.0) + (y - h / 2.0) * (y - h / 2.0)) / 8.0))
+                        + (127.0 + 127.0 * Math.sin(Math.sqrt((x - width / 2.0)* (x - width / 2.0) + (y - height / 2.0) * (y - height / 2.0)) / 8.0))
                         + (127.0 + 127.0 * Math.sin(Math.sqrt(x * x + y * y) / 8.0))
                     ) / 4
                 );
             }
         }
+        return EffectUtils.CreateBuffer(width, height, 0);
+        // return plasma;
     }
 
-    public function render(frame : Bitmap) : Void
+    public function render(buffer : Array<Array<Int>>) : Array<Int>
     {
-        var bm : BitmapData = frame.bitmapData;
-
-        var w : Int = bm.width;
-        var h : Int = bm.height;
-
         // the parameter to shift the palette varies with time
-        var palette_shift : Int = Math.ceil(EffectUtils.getTime() / 10);
+        var palette_shift : Int = Math.ceil(EffectUtils.GetTime() / 10);
 
-        bm.lock();
-        for (y in 0...h)
+        // @TODO update palette, not buffer (buffer = plasma)
+        for (x in 0...width)
         {
-            for (x in 0...w)
+            for (y in 0...height)
             {
                 // draw every pixel again, with the shifted palette color
-                var color : Int = palette[(plasma[x][y] + palette_shift) % palette.length];
-
-                bm.setPixel(x, y, color);
+                buffer[x][y] = (plasma[x][y] + palette_shift) % palette.length;
+                // buffer[x][y] = palette[(plasma[x][y] + palette_shift) % palette.length];
             }
         }
-        bm.unlock();
+        return palette;
+        // return null;
     }
 
     public function keyboard(_) : Void

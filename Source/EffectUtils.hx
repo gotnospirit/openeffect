@@ -2,21 +2,72 @@
 
 package;
 
-import flash.Lib;
-
 class EffectUtils
 {
+    static public inline function GetAssetPixels(filepath : String) : Array<Array<Int>>
+    {
+        var texture = openfl.Assets.getBitmapData(filepath);
+
+        var texture_width = texture.width;
+        var texture_height = texture.height;
+
+        var result = new Array<Array<Int>>();
+        for (x in 0...texture_width)
+        {
+            result[x] = new Array<Int>();
+
+            for (y in 0...texture_height)
+            {
+                result[x][y] = texture.getPixel32(x, y);
+            }
+        }
+        return result;
+    }
+
+    static public inline function CreateBuffer(width : Int, height : Int, default_color : Int = 0) : Array<Array<Int>>
+    {
+        var result = new Array<Array<Int>>();
+        for (x in 0...width)
+        {
+            result[x] = new Array<Int>();
+
+            for (y in 0...height)
+            {
+                result[x][y] = default_color;
+            }
+        }
+        return result;
+    }
+
+    static public inline function ClearBuffer(buffer : Array<Array<Int>>, default_color : Int = 0) : Void
+    {
+        for (x in 0...buffer.length)
+        {
+            var len : Int = buffer[x].length;
+
+            for (y in 0...len)
+            {
+                buffer[x][y] = default_color;
+            }
+        }
+    }
+
     static public inline function ToInt(value : Float) : Int
     {
         return Std.int(value);
     }
 
-	static public inline function getTime() : Float
+	static public inline function GetTime() : Float
     {
-		return Lib.getTimer();
+		return flash.Lib.getTimer();
 	}
 
-    static public inline function rand() : Int
+    static public inline function Min(a : Int, b : Int) : Int
+    {
+        return a < b ? a : b;
+    }
+
+    static public inline function Rand() : Int
     {
         return Std.random(32767);
     }
@@ -174,5 +225,40 @@ class EffectUtils
             result = t1;
         }
         return result;
+    }
+
+    static public inline function clamp(value : Float, min : Float, max : Float) : Float
+    {
+        if (value > max)
+        {
+            value = max;
+        }
+        else if (value < min)
+        {
+            value = min;
+        }
+        return value;
+    }
+
+    static public inline function AddColor(color1 : Int, color2 : Int) : Int
+    {
+        var b1 : Int = color1 & 255;
+        var g1 : Int = (color1 >> 8) & 255;
+        var r1 : Int = (color1 >> 16) & 255;
+
+        var b2 : Int = color2 & 255;
+        var g2 : Int = (color2 >> 8) & 255;
+        var r2 : Int = (color2 >> 16) & 255;
+
+        return ColorRGB(r1 + r2, g1 + g2, b1 + b2);
+    }
+
+    static public inline function MulColor(color : Int, factor : Float) : Int
+    {
+        var b : Int = color & 255;
+        var g : Int = (color >> 8) & 255;
+        var r : Int = (color >> 16) & 255;
+
+        return ColorRGB(ToInt(r * factor), ToInt(g * factor), ToInt(b * factor));
     }
 }

@@ -2,8 +2,6 @@
 
 package raycast;
 
-import openfl.display.BitmapData;
-
 class BaseTextured extends BaseEffect
 {
     var textures : Array<Array<Int>>;
@@ -57,12 +55,12 @@ class BaseTextured extends BaseEffect
         ];
     }
 
-    override private function raycast(bm : BitmapData, w : Int, h : Int, world : Array<Array<Int>>) : Void
+    override private function raycast(buffer : Array<Array<Int>>, width : Int, height : Int, world : Array<Array<Int>>) : Void
     {
-        for (x in 0...w)
+        for (x in 0...width)
         {
             // calculate ray position and direction
-            var camera_x : Float = 2 * x / w - 1;   // x-coordinate in camera space
+            var camera_x : Float = 2 * x / width - 1;   // x-coordinate in camera space
             var ray_pos_x : Float = posX;
             var ray_pos_y : Float = posY;
             var ray_dir_x : Float = dirX + planeX * camera_x;
@@ -148,19 +146,19 @@ class BaseTextured extends BaseEffect
             }
 
             // Calculate height of line to draw on screen
-            var line_height : Int = abs(h / perp_wall_dist);
+            var line_height : Int = abs(height / perp_wall_dist);
 
             // calculate lowest and highest pixel to fill in current stripe
-            var draw_start : Int = EffectUtils.ToInt(-line_height / 2 + h / 2);
+            var draw_start : Int = EffectUtils.ToInt(-line_height / 2 + height / 2);
             if (draw_start < 0)
             {
                 draw_start = 0;
             }
 
-            var draw_end : Int = EffectUtils.ToInt(line_height / 2 + h / 2);
-            if (draw_end >= h)
+            var draw_end : Int = EffectUtils.ToInt(line_height / 2 + height / 2);
+            if (draw_end >= height)
             {
-                draw_end = h - 1;
+                draw_end = height - 1;
             }
 
             // texturing calculations
@@ -193,7 +191,7 @@ class BaseTextured extends BaseEffect
 
             for (y in draw_start...draw_end)
             {
-                var d : Int = EffectUtils.ToInt(y * 256 - h * 128 + line_height * 128); // 256 and 128 factors to avoid floats
+                var d : Int = EffectUtils.ToInt(y * 256 - height * 128 + line_height * 128); // 256 and 128 factors to avoid floats
                 var tex_y : Int = EffectUtils.ToInt(((d * TEXTURE_HEIGHT) / line_height) / 256);
                 var color : Int = textures[tex_num][TEXTURE_HEIGHT * tex_y + tex_x];
                 // make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
@@ -202,7 +200,7 @@ class BaseTextured extends BaseEffect
                     color = EffectUtils.ColorDarker(color);
                 }
 
-                bm.setPixel(x, y, color);
+                buffer[x][y] = color;
             }
         }
     }
