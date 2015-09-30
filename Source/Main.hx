@@ -32,7 +32,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new lodev.tunnel.BlueXOR();
+        effect = new insolitdust.RainDrop();
 
         debug = new TextField();
         debug.multiline = true;
