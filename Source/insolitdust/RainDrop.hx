@@ -123,16 +123,16 @@ class RainDrop implements IEffect
 
                 var nx : Float = water[bi + 1 + scrdim] - water[bi - 1 + scrdim];
                 var ny : Float = water[bi + width + scrdim] - water[bi - width + scrdim];
-                var rx : Int = clamp(x - Std.int(nx * REF), 1, width - 2);
-                var ry : Int = clamp(y - Std.int(ny * REF), 1, height - 2);
+                var rx : Int = EffectUtils.IntClamp(x - Std.int(nx * REF), 1, width - 2);
+                var ry : Int = EffectUtils.IntClamp(y - Std.int(ny * REF), 1, height - 2);
 
-                var s : Int = clamp(Std.int(ny * 64.0), 0, 64);
+                var s : Int = EffectUtils.IntClamp(Std.int(ny * 64.0), 0, 64);
 
                 var rgb : Int = background[(ry << 8) + (ry << 6) + rx];
 
-                var r : Int = clamp(((rgb >> 16) & 255) + s, 0, 255);
-                var g : Int = clamp(((rgb >> 8) & 255) + s, 0, 255);
-                var b : Int = clamp((rgb & 255) + s, 0, 255);
+                var r : Int = EffectUtils.IntClamp(((rgb >> 16) & 255) + s, 0, 255);
+                var g : Int = EffectUtils.IntClamp(((rgb >> 8) & 255) + s, 0, 255);
+                var b : Int = EffectUtils.IntClamp((rgb & 255) + s, 0, 255);
 
                 buffer[x][y] = EffectUtils.ColorRGB(r, g, b);
             }
@@ -167,10 +167,5 @@ class RainDrop implements IEffect
                     water[bi + width]) * 0.2;
             }
         }
-    }
-
-    private inline function clamp(value : Int, min : Int, max : Int) : Int
-    {
-        return Std.int(EffectUtils.clamp(value, min, max));
     }
 }

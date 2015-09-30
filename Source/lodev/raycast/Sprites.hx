@@ -396,7 +396,7 @@ class Sprites extends WolfTextured
 
     private inline function drawPixel(buffer : Array<Array<Int>>, x : Int, y : Int, color : Int, opacity : Float) : Void
     {
-        opacity = EffectUtils.clamp(opacity, 0.0, 1.0);
+        opacity = EffectUtils.FloatClamp(opacity, 0.0, 1.0);
 
         buffer[x][y] = EffectUtils.AddColor(
             EffectUtils.MulColor(buffer[x][y], 1.0 - opacity), // old_color (wall?)

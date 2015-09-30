@@ -227,7 +227,20 @@ class EffectUtils
         return result;
     }
 
-    static public inline function clamp(value : Float, min : Float, max : Float) : Float
+    static public inline function IntClamp(value : Int, min : Int, max : Int) : Int
+    {
+        if (value > max)
+        {
+            value = max;
+        }
+        else if (value < min)
+        {
+            value = min;
+        }
+        return value;
+    }
+
+    static public inline function FloatClamp(value : Float, min : Float, max : Float) : Float
     {
         if (value > max)
         {
