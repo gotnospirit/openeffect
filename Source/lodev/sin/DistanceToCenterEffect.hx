@@ -1,6 +1,6 @@
 // @see http://lodev.org/cgtutor/plasma.html
 
-package sin;
+package lodev.sin;
 
 class DistanceToCenterEffect extends BaseEffect
 {

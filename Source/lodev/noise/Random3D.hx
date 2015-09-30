@@ -1,6 +1,6 @@
 // @see http://lodev.org/cgtutor/randomnoise.html
 
-package noise;
+package lodev.noise;
 
 class Random3D implements IEffect
 {
@@ -49,6 +49,10 @@ class Random3D implements IEffect
             }
         }
         return null;
+    }
+
+    public function update(_) : Void
+    {
     }
 
     public function keyboard(_) : Void

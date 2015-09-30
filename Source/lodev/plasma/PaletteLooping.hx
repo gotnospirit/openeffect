@@ -1,6 +1,6 @@
 // @see http://lodev.org/cgtutor/plasma.html
 
-package plasma;
+package lodev.plasma;
 
 class PaletteLooping implements IEffect
 {
@@ -89,6 +89,10 @@ class PaletteLooping implements IEffect
         }
         return palette;
         // return null;
+    }
+
+    public function update(_) : Void
+    {
     }
 
     public function keyboard(_) : Void

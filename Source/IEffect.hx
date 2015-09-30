@@ -8,5 +8,7 @@ interface IEffect
 
     public function render(buffer : Array<Array<Int>>) : Array<Int>;
 
+    public function update(frame_time : Float) : Void;
+
     public function keyboard(evt : KeyboardEvent) : Void;
 }

@@ -1,8 +1,6 @@
 // @see http://lodev.org/cgtutor/raycasting.html
 
-package raycast;
-
-import openfl.display.BitmapData;
+package lodev.raycast;
 
 class FloorCeiling extends WolfTextured
 {

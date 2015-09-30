@@ -1,6 +1,6 @@
 // @see http://lodev.org/cgtutor/randomnoise.html
 
-package noise;
+package lodev.noise;
 
 class SmoothNoise extends Noise
 {

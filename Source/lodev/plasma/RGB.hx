@@ -1,6 +1,6 @@
 // @see http://lodev.org/cgtutor/plasma.html
 
-package plasma;
+package lodev.plasma;
 
 class RGB implements IEffect
 {
@@ -37,6 +37,10 @@ class RGB implements IEffect
             }
         }
         return null;
+    }
+
+    public function update(_) : Void
+    {
     }
 
     public function keyboard(_) : Void

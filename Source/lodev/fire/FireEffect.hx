@@ -1,6 +1,6 @@
 // @see http://lodev.org/cgtutor/fire.html
 
-package fire;
+package lodev.fire;
 
 class FireEffect implements IEffect
 {
@@ -58,6 +58,10 @@ class FireEffect implements IEffect
             }
         }
         return palette;
+    }
+
+    public function update(_) : Void
+    {
     }
 
     public function keyboard(_) : Void

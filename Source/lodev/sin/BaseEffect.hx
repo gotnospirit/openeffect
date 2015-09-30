@@ -1,4 +1,4 @@
-package sin;
+package lodev.sin;
 
 class BaseEffect implements IEffect
 {
@@ -28,6 +28,10 @@ class BaseEffect implements IEffect
             }
         }
         return null;
+    }
+
+    public function update(_) : Void
+    {
     }
 
     public function keyboard(_) : Void

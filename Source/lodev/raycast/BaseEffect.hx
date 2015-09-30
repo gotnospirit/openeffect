@@ -1,6 +1,6 @@
 // @see http://lodev.org/cgtutor/raycasting.html
 
-package raycast;
+package lodev.raycast;
 
 import openfl.display.Sprite;
 import openfl.ui.Keyboard;
@@ -19,9 +19,6 @@ class BaseEffect implements IEffect
     var planeX : Float;
     var planeY : Float;
 
-    var time : Float;
-    var oldTime : Float;
-
     var world : Array<Array<Int>>;
 
     var width : Int;
@@ -38,11 +35,6 @@ class BaseEffect implements IEffect
     {
         initPositions();
 
-        // time of current frame
-        time = 0;
-        // time of previous frame
-        oldTime = 0;
-
         world = initWorld();
         return EffectUtils.CreateBuffer(width, height, 0);
     }
@@ -54,15 +46,6 @@ class BaseEffect implements IEffect
 
         raycast(buffer, width, height, world);
 
-        // timing for input and FPS counter
-        oldTime = time;
-        time = EffectUtils.GetTime();
-        // frame_time is the time this frame has taken, in seconds
-        var frame_time : Float = (time - oldTime) / 1000.0;
-        // FPS counter
-        print("FPS: " + Std.string(EffectUtils.ToInt(1.0 / frame_time)));
-
-        update(frame_time);
         return null;
     }
 
@@ -71,7 +54,7 @@ class BaseEffect implements IEffect
         keypressed[evt.keyCode] = KeyboardEvent.KEY_DOWN == evt.type;
     }
 
-    private inline function update(frame_time : Float) : Void
+    public function update(frame_time : Float) : Void
     {
         // the constant value is in squares / second
         var move_speed : Float = frame_time * 5.0;

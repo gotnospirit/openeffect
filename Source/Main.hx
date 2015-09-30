@@ -25,11 +25,14 @@ class Main extends Sprite
 
     var debug : TextField;
 
+    var time : Float;
+    var oldTime : Float;
+
 	public function new()
     {
 		super();
 
-        effect = new noise.Random3D(stage.stageWidth, stage.stageHeight);
+        effect = new lodev.tunnel.BlueXOR(stage.stageWidth, stage.stageHeight);
 
         debug = new TextField();
         debug.multiline = true;
@@ -40,6 +43,11 @@ class Main extends Sprite
         format.size = 15;
         format.color = 0xffffff;
         debug.defaultTextFormat = format;
+
+        // time of current frame
+        time = 0;
+        // time of previous frame
+        oldTime = 0;
 
         this.addEventListener(Event.ADDED_TO_STAGE, onOpened);
 	}
@@ -106,11 +114,17 @@ class Main extends Sprite
 
             bmp.bitmapData.draw(bm, matrix);
         }
-    }
 
-    private function print(txt : String) : Void
-    {
-        debug.text = txt;
+        // timing for input and FPS counter
+        oldTime = time;
+        time = EffectUtils.GetTime();
+
+        // frame_time is the time this frame has taken, in seconds
+        var frame_time : Float = (time - oldTime) / 1000.0;
+        // FPS counter
+        debug.text = "FPS: " + Std.string(EffectUtils.ToInt(1.0 / frame_time));
+
+        effect.update(frame_time);
     }
 
     private function onKeyDown(evt : KeyboardEvent) : Void

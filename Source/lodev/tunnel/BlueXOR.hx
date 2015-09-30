@@ -1,6 +1,6 @@
 // @see http://lodev.org/cgtutor/tunnel.html
 
-package tunnel;
+package lodev.tunnel;
 
 class BlueXOR implements IEffect
 {
@@ -50,6 +50,11 @@ class BlueXOR implements IEffect
         }
         return null;
     }
+
+    public function update(_) : Void
+    {
+    }
+
 
     public function keyboard(_) : Void
     {

@@ -1,6 +1,6 @@
 // @see http://lodev.org/cgtutor/raycasting.html
 
-package raycast;
+package lodev.raycast;
 
 class Untextured extends BaseEffect
 {

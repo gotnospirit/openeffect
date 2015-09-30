@@ -1,6 +1,6 @@
 // @see http://lodev.org/cgtutor/tunnel.html
 
-package tunnel;
+package lodev.tunnel;
 
 class BetterTexture extends BlueXOR
 {

@@ -1,16 +1,14 @@
 // @see http://lodev.org/cgtutor/plasma.html
 
-package sin;
+package lodev.sin;
 
-class SumEffect extends BaseEffect
+class PlotEffect extends BaseEffect
 {
     override private function getColor(x : Int, y : Int, w : Int, h : Int) : Int
     {
         return EffectUtils.ToInt(
-            (
-                (127.0 + 127.0 * Math.sin(x / 8.0))
-                + (127.0 + 127.0 * Math.sin(y / 8.0))
-            ) / 2
+            127.0 + 127.0 *
+            Math.sin(x / 8.0)
         );
     }
 }
