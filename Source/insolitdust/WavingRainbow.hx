@@ -108,14 +108,14 @@ class WavingRainbow implements IEffect
 
         for (i in 0...stroke)
         {
-            drawLine(x1, y1, x2, y2, color, buffer, width);
+            drawLine(x1, y1, x2, y2, color, buffer);
 
             --y1;
             --y2;
         }
     }
 
-    private function drawLine(x1 : Int, y1 : Int, x2 : Int, y2 : Int, color : Int, buffer : Array<Array<Int>>, width : Int) : Void
+    private function drawLine(x1 : Int, y1 : Int, x2 : Int, y2 : Int, color : Int, buffer : Array<Array<Int>>) : Void
     {
         var dx : Int = abs(x1 - x2);
         var dy : Int = abs(y1 - y2);
