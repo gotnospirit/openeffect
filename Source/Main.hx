@@ -32,7 +32,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new insolitdust.Plasma();
+        effect = new insolitdust.DotTorus();
 
         debug = new TextField();
         debug.multiline = true;

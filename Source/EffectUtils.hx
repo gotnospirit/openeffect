@@ -52,6 +52,33 @@ class EffectUtils
         }
     }
 
+    static public inline function BlurBuffer(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
+    {
+        for (y in 1...height - 1)
+        {
+            buffer[0][y - 1] = 0;
+            buffer[0][y] = 0;
+            buffer[0][y + 1] = 0;
+
+            for (x in 1...width - 1)
+            {
+                var Color : Int = (buffer[x][y - 1] + buffer[x][y + 1] + buffer[x - 1][y] + buffer[x + 1][y]) >> 2;
+                Color -= 2;
+
+                if (Color < 0)
+                {
+                    Color = 0;
+                }
+
+                buffer[x][y] = Color;
+            }
+
+            buffer[width - 1][y - 1] = 0;
+            buffer[width - 1][y] = 0;
+            buffer[width - 1][y + 1] = 0;
+        }
+    }
+
     static public inline function ToInt(value : Float) : Int
     {
         return Std.int(value);
