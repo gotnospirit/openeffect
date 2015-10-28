@@ -88,7 +88,7 @@ class MetaBalls implements IEffect
         EffectUtils.ClearBuffer(buffer, 0);
 
         renderBalls(buffer, XRES, YRES);
-        blurScreen(buffer, XRES, YRES);
+        EffectUtils.BlurBuffer(buffer, XRES, YRES);
         return palette;
     }
 
@@ -129,33 +129,6 @@ class MetaBalls implements IEffect
                     buffer[x + 1][y + 1] = Color;
                 }
             }
-        }
-    }
-
-    private function blurScreen(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
-    {
-        for (y in 1...height - 1)
-        {
-            buffer[0][y - 1] = 0;
-            buffer[0][y] = 0;
-            buffer[0][y + 1] = 0;
-
-            for (x in 1...width - 1)
-            {
-                var Color : Int = (buffer[x][y - 1] + buffer[x][y + 1] + buffer[x - 1][y] + buffer[x + 1][y]) >> 2;
-                Color -= 2;
-
-                if (Color < 0)
-                {
-                    Color = 0;
-                }
-
-                buffer[x][y] = Color;
-            }
-
-            buffer[width - 1][y - 1] = 0;
-            buffer[width - 1][y] = 0;
-            buffer[width - 1][y + 1] = 0;
         }
     }
 
