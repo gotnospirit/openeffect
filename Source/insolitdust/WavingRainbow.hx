@@ -71,7 +71,7 @@ class WavingRainbow implements IEffect
     }
 
     // Generate a new moving table
-    private function calcWave() : Void
+    private inline function calcWave() : Void
     {
         Theta += 0.05;
         wave_x = Theta;
@@ -83,7 +83,7 @@ class WavingRainbow implements IEffect
         }
     }
 
-    private function renderRainbow(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
+    private inline function renderRainbow(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
     {
         for (i in 0...palette.length)
         {
@@ -101,7 +101,7 @@ class WavingRainbow implements IEffect
     }
 
     // Draw an horizontal stroked line
-    private function drawStrokedLine(x1 : Int, y1 : Int, x2 : Int, y2 : Int, color : Int, stroke : Int, buffer : Array<Array<Int>>, width : Int) : Void
+    private inline function drawStrokedLine(x1 : Int, y1 : Int, x2 : Int, y2 : Int, color : Int, stroke : Int, buffer : Array<Array<Int>>, width : Int) : Void
     {
         x1 = EffectUtils.IntClamp(x1, 0, width - 1);
         x2 = EffectUtils.IntClamp(x2, 0, width - 1);
@@ -115,7 +115,7 @@ class WavingRainbow implements IEffect
         }
     }
 
-    private function drawLine(x1 : Int, y1 : Int, x2 : Int, y2 : Int, color : Int, buffer : Array<Array<Int>>) : Void
+    private inline function drawLine(x1 : Int, y1 : Int, x2 : Int, y2 : Int, color : Int, buffer : Array<Array<Int>>) : Void
     {
         var dx : Int = abs(x1 - x2);
         var dy : Int = abs(y1 - y2);

@@ -61,7 +61,7 @@ class RainDrop implements IEffect
     }
 
     // Create the background image
-    private function buildBackImage(width : Int, height : Int) : Array<Int>
+    private inline function buildBackImage(width : Int, height : Int) : Array<Int>
     {
         var result : Array<Int> = new Array<Int>();
 
@@ -80,7 +80,7 @@ class RainDrop implements IEffect
     }
 
     // Release a water drop...
-    private function makeDrop(width : Int, height : Int) : Void
+    private inline function makeDrop(width : Int, height : Int) : Void
     {
         var ix : Int = EffectUtils.Rand() % width;
         var iy : Int = EffectUtils.Rand() % height;
@@ -92,7 +92,7 @@ class RainDrop implements IEffect
     }
 
     // Moving water
-    private function doWater(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
+    private inline function doWater(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
     {
         var scrdim : Int = width * height;
 

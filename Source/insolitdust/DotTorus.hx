@@ -169,7 +169,7 @@ class DotTorus implements IEffect
     {
     }
 
-    private function initPalette() : Array<Int>
+    private inline function initPalette() : Array<Int>
     {
         var result = new Array<Int>();
         var R : Int = 0;
@@ -193,7 +193,7 @@ class DotTorus implements IEffect
     }
 
     // Draw torus on screen, update rotation and blur screen
-    private function showTorus(buffer : Array<Array<Int>>) : Void
+    private inline function showTorus(buffer : Array<Array<Int>>) : Void
     {
         for (index in Phi...Phi + 17)
         {
@@ -242,7 +242,7 @@ class DotTorus implements IEffect
     }
 
     // Draw a single big torus block
-    private function drawBlob(buffer : Array<Array<Int>>, x : Int, y : Int) : Void
+    private inline function drawBlob(buffer : Array<Array<Int>>, x : Int, y : Int) : Void
     {
         for (i in 0...5)
         {

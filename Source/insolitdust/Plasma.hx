@@ -41,7 +41,7 @@ class Plasma implements IEffect
     {
     }
 
-    private function doPlasma(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
+    private inline function doPlasma(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
     {
         a += 2;
 

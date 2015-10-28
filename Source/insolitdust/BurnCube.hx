@@ -39,11 +39,23 @@ class BurnCube implements IEffect
 
         r = new Array<Int>();
 
-        mr = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+        mr = [
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]
+        ];
+
         lx = [1, 1, 1, 1, -1, -1, -1, -1];
         ly = [1, 1, -1, -1, 1, 1, -1, -1];
         lz = [1, -1, 1, -1, 1, -1, 1, -1];
-        face = [[4, 0, 1, 5], [1, 0, 2, 3], [5, 1, 3, 7], [4, 5, 7, 6], [0, 4, 6, 2], [3, 2, 6, 7]];
+        face = [
+            [4, 0, 1, 5],
+            [1, 0, 2, 3],
+            [5, 1, 3, 7],
+            [4, 5, 7, 6],
+            [0, 4, 6, 2],
+            [3, 2, 6, 7]
+        ];
 
         lxn = [0, 0, 0, 0, 0, 0, 0, 0];
         lyn = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -77,7 +89,7 @@ class BurnCube implements IEffect
     }
 
     // Blur screen to make the fire effect
-    private function doFire(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
+    private inline function doFire(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
     {
         for (a in 0...width)
         {
@@ -100,7 +112,7 @@ class BurnCube implements IEffect
     }
 
     // Rotate and draw cube on screen
-    private function doCube(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
+    private inline function doCube(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
     {
         ax += 0.04;
         ay += 0.036;

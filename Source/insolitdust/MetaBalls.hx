@@ -105,7 +105,7 @@ class MetaBalls implements IEffect
     {
     }
 
-    private function renderBalls(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
+    private inline function renderBalls(buffer : Array<Array<Int>>, width : Int, height : Int) : Void
     {
         for (x in 0...width - 1)
         {
@@ -132,7 +132,7 @@ class MetaBalls implements IEffect
         }
     }
 
-    private function clearF() : Void
+    private inline function clearF() : Void
     {
         for (i in 0...F.length)
         {
@@ -140,7 +140,7 @@ class MetaBalls implements IEffect
         }
     }
 
-    private function updateBalls(Phi : Int) : Void
+    private inline function updateBalls(Phi : Int) : Void
     {
         MBalls[0].A = Sin[Phi] * 120 + (320 / 2);
         MBalls[0].B = Cos[Phi] * 80 + (240 / 2);
@@ -161,7 +161,7 @@ class MetaBalls implements IEffect
         MBalls[7].A = Cos[Phi] * 70 + (320 / 2);
     }
 
-    private function initPalette() : Array<Int>
+    private inline function initPalette() : Array<Int>
     {
         var result = new Array<Int>();
         for (i in 0...256)
