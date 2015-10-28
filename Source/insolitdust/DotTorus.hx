@@ -7,7 +7,6 @@ class DotTorus implements IEffect
     var palette : Array<Int>;
     var Sin : Array<Float>;
     var Cos : Array<Float>;
-    var pxoffset : Array<Int>;
 
     var Phi : Int;
 
@@ -141,18 +140,12 @@ class DotTorus implements IEffect
         palette = initPalette();
         Sin = new Array<Float>();
         Cos = new Array<Float>();
-        pxoffset = new Array<Int>();
 
         Phi = 0;
     }
 
     public function init(_, _) : Array<Array<Int>>
     {
-        for (i in 0...YRES)
-        {
-            pxoffset[i] = i * XRES;
-        }
-
         // Calculate the moving tables...
         for (i in 0...721)
         {
