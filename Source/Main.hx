@@ -32,7 +32,7 @@ class Main extends Sprite
     {
 		super();
 
-        effect = new insolitdust.SineFlag();
+        effect = new insolitdust.Voxel();
 
         debug = new TextField();
         debug.multiline = true;
